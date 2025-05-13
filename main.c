@@ -203,6 +203,24 @@ void menu(BITMAP* buffer,BITMAP* fond,const char* pseudo,int sel) {
     blit(buffer,screen,0,0,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 }
 
+void afficher_barre_vie(BITMAP* buffer, Vaisseau_joueur* vaisseau) {
+    int max_vie = 3;
+    int largeur_max = 100;
+    int hauteur = 10;
+    int x = 10;
+    int y = 50;
+
+    int largeur_vie = (vaisseau->nb_vie * largeur_max) / max_vie;
+
+    // Cadre
+    rect(buffer, x - 1, y - 1, x + largeur_max + 1, y + hauteur + 1, makecol(255, 255, 255));
+    // Fond rouge
+    rectfill(buffer, x, y, x + largeur_max, y + hauteur, makecol(100, 0, 0));
+    // Vie verte
+    rectfill(buffer, x, y, x + largeur_vie, y + hauteur, makecol(0, 255, 0));
+}
+
+
 int jouer_niveau(Vaisseau_joueur* vaisseau, Ennemi* ennemis, Projectile* projectile, BITMAP* buffer, BITMAP* fond, BITMAP* vaisseau_image, BITMAP* ennemi_image, int positions_x[], int positions_y[], int temps_apparition[], int num_ennemis) {
     int game_time = 0;
     int game_over = 0;
@@ -216,6 +234,7 @@ int jouer_niveau(Vaisseau_joueur* vaisseau, Ennemi* ennemis, Projectile* project
     textout_centre_ex(buffer, font, "Nouveau niveau !", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, makecol(255,255,255), -1);
     blit(buffer, screen, 0, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     rest(2000);
+
 
     while (!key[KEY_ESC] && !game_over) {
         int temps_actuel = clock();
@@ -275,6 +294,8 @@ int jouer_niveau(Vaisseau_joueur* vaisseau, Ennemi* ennemis, Projectile* project
         textprintf_ex(buffer, font, 10, 10, makecol(255,255,255), -1, "Score: %d", vaisseau->score_joueur);
         textprintf_ex(buffer, font, 10, 30, makecol(255,255,255), -1, "Temps restant: %d", LEVEL_TIME_LIMIT - game_time / 60);
         textprintf_ex(buffer, font, SCREEN_WIDTH - 100, 10, makecol(255,255,255), -1, "Vies: %d", vaisseau->nb_vie);
+        afficher_barre_vie(buffer, vaisseau);
+
 
         if (vaisseau->nb_vie <= 0) {
             game_over = 1;
@@ -519,3 +540,5 @@ int main(){
     return 0;
 }
 END_OF_MAIN()
+
+//test
