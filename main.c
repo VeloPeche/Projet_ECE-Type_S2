@@ -6,10 +6,10 @@
 #include <ctype.h>
 
 #define MAX_PROJECTILES 10
-#define MAX_ENNEMIS    10
-#define LARGEUR_ENNEMI 32
-#define HAUTEUR_ENNEMI 32
-#define VITESSE_ENNEMI 2
+#define MAX_ENNEMIS    20
+#define LARGEUR_ENNEMI 80
+#define HAUTEUR_ENNEMI 74
+#define VITESSE_ENNEMI 5
 #define VIES_INITIALES 3
 #define DUREE_NIVEAU   30
 
@@ -254,7 +254,7 @@ int main(){
                 deplacement_projectile(&projectiles[i]);
 
             // spawn ennemis
-            if(rand()%60==0){
+            if(rand()%30==0){
                 for(int i=0;i<MAX_ENNEMIS;i++){
                     if(!ennemis[i].actif){
                         ennemis[i].actif=1;
