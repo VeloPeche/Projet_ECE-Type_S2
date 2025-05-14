@@ -17,58 +17,18 @@ typedef struct { int x,y,actif; } Projectile;
 typedef struct { int x,y,vitesse,largeur,hauteur,nb_vie; } Vaisseau;
 typedef struct { int x,y,actif; } Ennemi;
 
-// ---------- Sauvegarde multi-champs ----------
-int lire_sauvegarde(const char *pseudo, int *out_score, int *out_level) {
-    FILE *f = fopen("sauvegarde.txt","r");
-    if(!f) return 0;
-    char nom[50]; int sc, lvl;
-    while(fscanf(f,"%49s %d %d\n", nom, &sc, &lvl)==3) {
-        if(strcmp(nom,pseudo)==0) {
-            *out_score = sc;
-            *out_level = lvl;
-            fclose(f);
-            return 1;
-        }
-    }
-    fclose(f);
-    return 0;
-}
+// Prototype sauvegarde
+int lire_sauvegarde(const char *pseudo, int *out_score, int *out_level);
+void ecrire_sauvegarde(const char *pseudo, int sc, int lvl);
 
-void ecrire_sauvegarde(const char *pseudo, int sc, int lvl) {
-    FILE *f = fopen("sauvegarde.txt","r");
-    FILE *t = fopen("tmp.txt","w");
-    char nom[50]; int s, l;
-    int found=0;
-    if(f) {
-        while(fscanf(f,"%49s %d %d\n", nom, &s, &l)==3) {
-            if(strcmp(nom,pseudo)==0) {
-                found=1;
-                // n'écrire que la meilleure perf
-                fprintf(t,"%s %d %d\n", nom,
-                        sc> s? sc: s,
-                        lvl> l? lvl: l
-                );
-            } else {
-                fprintf(t,"%s %d %d\n", nom, s, l);
-            }
-        }
-        fclose(f);
-    }
-    if(!found) {
-        fprintf(t,"%s %d %d\n", pseudo, sc, lvl);
-    }
-    fclose(t);
-    remove("sauvegarde.txt");
-    rename("tmp.txt","sauvegarde.txt");
-}
-// ----------------------------------------------
-
+// Chargement sécurisé
 BITMAP *load_bitmap_check(const char *f){
     BITMAP *b = load_bitmap(f,NULL);
     if(!b){ allegro_message("Erreur: %s non trouvé",f); exit(EXIT_FAILURE); }
     return b;
 }
 
+// Déplacements et collisions
 void deplacement_vaisseau(Vaisseau *v,int dx,int dy){
     v->x+=dx; v->y+=dy;
     if(v->x<0) v->x=0;
@@ -94,6 +54,8 @@ int collision_vaisseau_ennemi(Vaisseau *v,Ennemi *e){
            v->x<e->x+LARGEUR_ENNEMI && v->x+v->largeur>e->x &&
            v->y<e->y+HAUTEUR_ENNEMI && v->y+v->hauteur>e->y;
 }
+
+// Barre de vie
 void afficher_barre_vie(BITMAP *buf,Vaisseau *v){
     int max=VIES_INITIALES,w=100,h=10,x=10,y=50;
     int cur=v->nb_vie*w/max;
@@ -102,19 +64,19 @@ void afficher_barre_vie(BITMAP *buf,Vaisseau *v){
     rectfill(buf,x,y,x+cur,y+h,makecol(0,255,0));
 }
 
-// affiche le menu ET les stats si connues
+// Affichage du menu et stats
 void afficher_menu(BITMAP *page,const char *pseudo,int sel,
                    BITMAP *fm,int best_score,int best_level)
 {
     clear_bitmap(page);
     draw_sprite(page,fm,0,0);
 
-    // en haut à gauche : meilleurs score/niveau
-    if(best_score>=0) {
+    if(best_score>=0){
         char s[80];
-        sprintf(s,"Best Score: %d  Best Level: %d",
+        sprintf(s,"Meilleur Score: %d       Meilleur Niveau: %d",
                 best_score,best_level);
-        textout_ex(page,font,s,10,10,makecol(255,255,0),-1);
+
+        textout_ex(page,font,s,10,455,makecol(255,255,0),-1);
     }
 
     textout_centre_ex(page,font,"-----ECE-RTYPE-----",
@@ -127,14 +89,55 @@ void afficher_menu(BITMAP *page,const char *pseudo,int sel,
     for(int i=0;i<3;i++){
         int col=(i+1==sel)?makecol(0,255,0):makecol(255,255,255);
         textout_centre_ex(page,font,opts[i],
-                          SCREEN_W/2,SCREEN_H/2+ i*30 -30,
+                          SCREEN_W/2,SCREEN_H/2 + (i*30) - 30,
                           col,-1);
     }
     blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 }
 
+// Lecture/écriture de la sauvegarde
+int lire_sauvegarde(const char *pseudo, int *out_score, int *out_level){
+    FILE *f = fopen("sauvegarde.txt","r");
+    if(!f) return 0;
+    char nom[50]; int sc,lvl;
+    while(fscanf(f,"%49s %d %d\n",nom,&sc,&lvl)==3){
+        if(strcmp(nom,pseudo)==0){
+            *out_score=sc; *out_level=lvl;
+            fclose(f); return 1;
+        }
+    }
+    fclose(f);
+    return 0;
+}
+void ecrire_sauvegarde(const char *pseudo, int sc, int lvl){
+    FILE *f = fopen("sauvegarde.txt","r");
+    FILE *t = fopen("tmp.txt","w");
+    char nom[50]; int s,l; int found=0;
+    if(f){
+        while(fscanf(f,"%49s %d %d\n",nom,&s,&l)==3){
+            if(strcmp(nom,pseudo)==0){
+                found=1;
+                fprintf(t,"%s %d %d\n",
+                        nom,
+                        sc> s? sc: s,
+                        lvl> l? lvl: l);
+            } else {
+                fprintf(t,"%s %d %d\n",nom,s,l);
+            }
+        }
+        fclose(f);
+    }
+    if(!found){
+        fprintf(t,"%s %d %d\n",pseudo,sc,lvl);
+    }
+    fclose(t);
+    remove("sauvegarde.txt");
+    rename("tmp.txt","sauvegarde.txt");
+}
+
 int main(){
     srand(time(NULL));
+    // Init Allegro
     allegro_init();
     install_keyboard(); install_mouse();
     set_color_depth(32);
@@ -143,39 +146,40 @@ int main(){
         exit(EXIT_FAILURE);
     }
 
-    // chargement des images
+    // Chargement images
     BITMAP *page         = create_bitmap(SCREEN_W,SCREEN_H);
     BITMAP *fond_menu    = load_bitmap_check("menu5.bmp");
     BITMAP *fond         = load_bitmap_check("Fond1600x600.bmp");
     BITMAP *vaisseau_img = load_bitmap_check("Vaisseau.bmp");
     BITMAP *ennemi_img   = load_bitmap_check("Fantome_rose.bmp");
 
-    // saisie pseudo
-    char pseudo[50]="";
+    // 1) Saisie du pseudo
+    char pseudo[50] = "";
     while(1){
         clear_bitmap(page);
         draw_sprite(page,fond_menu,0,0);
         textout_centre_ex(page,font,
             "Entrez votre pseudo:",SCREEN_W/2,100,
             makecol(255,255,255),-1);
-        textout_ex(page,font,pseudo,SCREEN_W/2-50,130,
-                   makecol(0,255,0),-1);
+        textout_ex(page,font,pseudo,
+            SCREEN_W/2-50,130,makecol(0,255,0),-1);
         blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
         if(keypressed()){
             int k=readkey(); char c=k&0xFF;
             if(c==8 && strlen(pseudo)>0) pseudo[strlen(pseudo)-1]=0;
             else if(c==13 && strlen(pseudo)>0) break;
-            else if(isprint(c) && strlen(pseudo)<49) strncat(pseudo,&c,1);
+            else if(isprint(c) && strlen(pseudo)<49)
+                strncat(pseudo,&c,1);
         }
     }
 
-    // récupération de la sauvegarde
+    // 2) Chargement sauvegarde
     int best_score=-1, best_level=-1;
     lire_sauvegarde(pseudo,&best_score,&best_level);
 
-    // boucle générale : menu → jeu → menu → ...
+    // 3) Boucle MENU → JEU → MENU ...
     while(1){
-        // ----- MENU -----
+        // --- MENU ---
         int selection=1;
         while(1){
             afficher_menu(page,pseudo,selection,
@@ -185,11 +189,8 @@ int main(){
             if(key[KEY_DOWN]) { if(selection<3) selection++; rest(150); }
             if(key[KEY_ENTER]){
                 if(selection==3){
-                    // quitter → sauvegarde éventuelle
-                    if(best_score<0) best_score=0;
                     ecrire_sauvegarde(pseudo,best_score,best_level);
-                    allegro_exit();
-                    return 0;
+                    allegro_exit(); return 0;
                 }
                 break;
             }
@@ -200,50 +201,47 @@ int main(){
                 {
                     selection = ((my-(SCREEN_H/2-30))/30) + 1;
                     if(selection==3){
-                        if(best_score<0) best_score=0;
                         ecrire_sauvegarde(pseudo,best_score,best_level);
-                        allegro_exit();
-                        return 0;
+                        allegro_exit(); return 0;
                     }
                     break;
                 }
             }
         }
 
-        // ----- INITIALISATION JEU -----
-        Vaisseau vaisseau = {50,240,5,32,32,VIES_INITIALES};
+        // --- INITIALISATION JEU ---
+        Vaisseau v = {50,240,5,32,32,VIES_INITIALES};
         Projectile projectiles[MAX_PROJECTILES] = {{0}};
         Ennemi    ennemis[MAX_ENNEMIS]         = {{0}};
-        int vies = VIES_INITIALES, score = 0;
-        int niveau = 1;
+        int vies = VIES_INITIALES, score = 0, level = 1;
         int screenx = 0;
-        clock_t last_tir = 0; const int temps_tir=500;
+        clock_t last_tir = 0; const int tir_delay=500;
         time_t debut = time(NULL);
 
-        // ----- BOUCLE DE JEU -----
-        while(!key[KEY_ESC] && vies>0
+        // --- BOUCLE DE JEU ---
+        while(!key[KEY_ESC] && v.nb_vie>0
               && difftime(time(NULL),debut)<DUREE_NIVEAU)
         {
-            // ** scrolling fond **
-            screenx += 2;
-            if(screenx > fond->w-SCREEN_W) screenx=0;
+            // scrolling
+            screenx+=2;
+            if(screenx>fond->w-SCREEN_W) screenx=0;
             clear_bitmap(page);
             blit(fond,page,screenx,0,0,0,SCREEN_W,SCREEN_H);
 
-            // ** deplacement vaisseau **
+            // vaisseau
             int dx=0, dy=0;
-            if(key[KEY_UP])    dy=-vaisseau.vitesse;
-            if(key[KEY_DOWN])  dy= vaisseau.vitesse;
-            if(key[KEY_LEFT])  dx=-vaisseau.vitesse;
-            if(key[KEY_RIGHT]) dx= vaisseau.vitesse;
-            deplacement_vaisseau(&vaisseau,dx,dy);
+            if(key[KEY_UP])    dy=-v.vitesse;
+            if(key[KEY_DOWN])  dy= v.vitesse;
+            if(key[KEY_LEFT])  dx=-v.vitesse;
+            if(key[KEY_RIGHT]) dx= v.vitesse;
+            deplacement_vaisseau(&v,dx,dy);
 
-            // ** tir joueur **
-            if(key[KEY_SPACE] && clock()-last_tir>=temps_tir){
+            // tir joueur
+            if(key[KEY_SPACE] && clock()-last_tir>=tir_delay){
                 for(int i=0;i<MAX_PROJECTILES;i++){
                     if(!projectiles[i].actif){
-                        projectiles[i].x     = vaisseau.x + vaisseau.largeur;
-                        projectiles[i].y     = vaisseau.y + vaisseau.hauteur/2;
+                        projectiles[i].x     = v.x + v.largeur+25;
+                        projectiles[i].y     = v.y + v.hauteur+1/2;
                         projectiles[i].actif = 1;
                         last_tir = clock();
                         break;
@@ -251,11 +249,11 @@ int main(){
                 }
             }
 
-            // ** maj projectiles **
+            // maj projectiles
             for(int i=0;i<MAX_PROJECTILES;i++)
                 deplacement_projectile(&projectiles[i]);
 
-            // ** spawn ennemis **
+            // spawn ennemis
             if(rand()%60==0){
                 for(int i=0;i<MAX_ENNEMIS;i++){
                     if(!ennemis[i].actif){
@@ -267,19 +265,19 @@ int main(){
                 }
             }
 
-            // ** maj ennemis & collisions **
+            // maj ennemis & collisions
             for(int i=0;i<MAX_ENNEMIS;i++){
                 deplacement_ennemi(&ennemis[i]);
-                if(collision_vaisseau_ennemi(&vaisseau,&ennemis[i])){
-                    vies--; ennemis[i].actif=0;
+                if(collision_vaisseau_ennemi(&v,&ennemis[i])){
+                    v.nb_vie--; ennemis[i].actif=0;
                 }
                 for(int j=0;j<MAX_PROJECTILES;j++){
                     detecter_collisions(&projectiles[j],&ennemis[i],&score);
                 }
             }
 
-            // ** affichage **
-            draw_sprite(page,vaisseau_img,vaisseau.x,vaisseau.y);
+            // affichage
+            draw_sprite(page,vaisseau_img,v.x,v.y);
             for(int i=0;i<MAX_PROJECTILES;i++){
                 if(projectiles[i].actif)
                     rectfill(page,
@@ -294,31 +292,30 @@ int main(){
                                 ennemis[i].x,ennemis[i].y);
             }
 
-            // ** HUD **
+            // HUD
             textprintf_ex(page,font,10,10, makecol(255,255,255),-1,
                           "Score: %d",score);
-            textprintf_ex(page,font,10,25, makecol(255,255,255),-1,
-                          "Vies : %d",vies);
+            textprintf_ex(page,font,10,30, makecol(255,255,255),-1,
+                          "Vies : %d",v.nb_vie);
             int rem = DUREE_NIVEAU - (int)difftime(time(NULL),debut);
             if(rem<0) rem=0;
             textprintf_ex(page,font,SCREEN_W-100,10,
                           makecol(255,255,0),-1,
                           "Temps: %ds",rem);
-            afficher_barre_vie(page,&vaisseau);
+            afficher_barre_vie(page,&v);
 
             blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
             rest(30);
         }
 
-        // --- Fin partie, mise à jour de la sauvegarde ---
-        if(score > best_score)    best_score = score;
-        if(niveau > best_level)   best_level = niveau;
+        // fin partie → maj sauvegarde
+        if(score>best_score)    best_score=score;
+        if(level>best_level)    best_level=level;
         ecrire_sauvegarde(pseudo,best_score,best_level);
 
-        // petit temps avant retour menu
-        rest(500);
+        rest(300);
     }
 
     return 0;
 }
-END_OF_MAIN()
+END_OF_MAIN();
