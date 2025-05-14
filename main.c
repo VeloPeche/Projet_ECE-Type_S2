@@ -106,7 +106,7 @@ int main() {
     BITMAP *page = create_bitmap(SCREEN_W, SCREEN_H);
     BITMAP *fond_menu = load_bitmap_check("menu5.bmp");
     BITMAP *fond = load_bitmap_check("Fond1600x600.bmp");
-    BITMAP *vaisseau_img = load_bitmap_check("Pacman4.bmp");
+    BITMAP *vaisseau_img = load_bitmap_check("Vaisseau.bmp");
     BITMAP *ennemi_img = load_bitmap_check("Fantome_rose.bmp");
 
     // Menu nom joueur
