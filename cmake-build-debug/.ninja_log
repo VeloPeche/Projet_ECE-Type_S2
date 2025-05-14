@@ -1,7 +1,6 @@
 # ninja log v6
-16	182	7689201821364942	CMakeFiles/ProjetTypeS2.dir/decor.c.obj	426c1303e624dd52
-6	334	7689201821264886	CMakeFiles/ProjetTypeS2.dir/main.c.obj	a1e6f6d46b9293f4
-335	540	7689201824546884	ProjetTypeS2.exe	e9ecff6b9faa24a7
-6	506	7689204556743629	build.ninja	c2a439fc768fe7e9
 36	296	7689204559266194	CMakeFiles/ProjetTypeS2.dir/main.c.obj	a1e6f6d46b9293f4
 296	502	7689204561861012	ProjetTypeS2.exe	d94edab050aabbf9
+6	506	7689207120924088	build.ninja	c2a439fc768fe7e9
+8	271	7689207212579229	CMakeFiles/ProjetTypeS2.dir/main.c.obj	a1e6f6d46b9293f4
+272	480	7689207215222062	ProjetTypeS2.exe	d94edab050aabbf9
