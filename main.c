@@ -492,7 +492,7 @@ int main(){
                 afficher_ennemi(&ennemis[i],buffer,ennemi_image);
             }
         }
-        afficher_projectile(&projectile,buffer);
+        afficher_projectile(&projectile,buffer); //affichage des projectiles
 
         verrifier_collisions(&vaisseau,ennemis,NUM_ENEMIES,&projectile,&invincible,&invincible_timer);
 
@@ -538,18 +538,9 @@ int main(){
     destroy_bitmap(fond_menu);
     destroy_bitmap(ennemi_image);
     return 0;
+
 }
 END_OF_MAIN()
 
 
 
-//for (int i = 0; i < NB_PROJECTILES_ENNEMIS; i++) {
-    //if (projectiles_ennemis[i].actif) {
-        //rectfill(buffer,
-                 //projectiles_ennemis[i].x,
-                 //projectiles_ennemis[i].y,
-                 //projectiles_ennemis[i].x + 4,
-                 //projectiles_ennemis[i].y + 10,
-                // makecol(255, 0, 0));
-    }
-}
