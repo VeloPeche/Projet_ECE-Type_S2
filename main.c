@@ -159,7 +159,7 @@ int main() {
     }
 
     // Sélection du menu
-    int selection = 1;
+    int selection = 0;
     while (1) {
         afficher_menu(page, nom, &selection, fond_menu);
 
@@ -168,6 +168,26 @@ int main() {
             if (mouse_y > SCREEN_H / 2 - 30 && mouse_y < SCREEN_H / 2) selection = 1;  // Option 1
             if (mouse_y > SCREEN_H / 2 && mouse_y < SCREEN_H / 2 + 30) selection = 2;  // Option 2
             if (mouse_y > SCREEN_H / 2 + 30 && mouse_y < SCREEN_H / 2 + 60) selection = 3;  // Option 3
+        }
+
+        // Gérer les entrées clavier
+        if (key[KEY_UP]) {
+            if (selection > 1) selection--;
+            rest(150);  // Pause pour éviter la répétition trop rapide
+        }
+        if (key[KEY_DOWN]) {
+            if (selection < 3) selection++;
+            rest(150);
+        }
+        if (key[KEY_ENTER]) {
+            if (selection == 1) {
+                break;  // Commencer le jeu
+            } else if (selection == 2) {
+                break;  // Reprendre une partie
+            } else if (selection == 3) {
+                allegro_exit();
+                exit(0);  // Quitter le jeu
+            }
         }
 
         if (mouse_b & 1) {
