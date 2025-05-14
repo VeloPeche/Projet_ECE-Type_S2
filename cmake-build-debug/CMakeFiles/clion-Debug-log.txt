@@ -5,6 +5,6 @@
 -- Check for working C compiler: C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/gcc.exe - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Configuring done (2.5s)
+-- Configuring done (2.7s)
 -- Generating done (0.0s)
 -- Build files have been written to: C:/Users/tkhat/Desktop/Informatique/Projet Ingé1 S2/ProjetTypeS2/cmake-build-debug

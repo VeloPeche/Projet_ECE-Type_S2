@@ -78,7 +78,7 @@ int main() {
     const int temps_tir = 500; // 500 ms pour tirer un projectile
 
     page = create_bitmap(SCREEN_W, SCREEN_H);
-    fond = load_bitmap_check("grand_fond.bmp"); // Charger l'image du fond
+    fond = load_bitmap_check("Fond1600x600.bmp"); // Charger l'image du fond
     vaisseau_img = load_bitmap_check("Pacman4.bmp"); // Charger l'image du vaisseau
 
     // Initialisation des projectiles (inactifs au départ)
