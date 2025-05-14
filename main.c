@@ -59,9 +59,20 @@ int collision_vaisseau_ennemi(Vaisseau *v,Ennemi *e){
 void afficher_barre_vie(BITMAP *buf,Vaisseau *v){
     int max=VIES_INITIALES,w=100,h=10,x=10,y=50;
     int cur=v->nb_vie*w/max;
+
+    int couleur_vie;
+    if (v->nb_vie > 2) {
+        couleur_vie = makecol(0, 255, 0); // vert
+    } else if (v->nb_vie == 2) {
+        couleur_vie = makecol(255, 255, 0); // jaune
+    } else {
+        couleur_vie = makecol(255, 0, 0); // rouge
+    }
+
     rect(buf,x-1,y-1,x+w+1,y+h+1,makecol(255,255,255));
     rectfill(buf,x,y,x+w,y+h,makecol(100,0,0));
-    rectfill(buf,x,y,x+cur,y+h,makecol(0,255,0));
+    rectfill(buf,x,y,x+cur,y+h,couleur_vie);
+
 }
 
 // Affichage du menu et stats
