@@ -83,14 +83,14 @@ void afficher_barre_vie(BITMAP* buffer, Vaisseau* vaisseau) {
     int largeur_max = 100;
     int hauteur = 10;
     int x = 10;
-    int y = 50;
+    int y = 70;
 
     int largeur_vie = (vaisseau->nb_vie * largeur_max) / max_vie;
 
     // Cadre
     rect(buffer, x - 1, y - 1, x + largeur_max + 1, y + hauteur + 1, makecol(255, 255, 255));
     // Fond rouge
-    rectfill(buffer, x, y, x + largeur_max, y + hauteur, makecol(100, 0, 0));
+    rectfill(buffer, x, y, x + largeur_max, y + hauteur, makecol(0, 255, 0));
     // Vie verte
     rectfill(buffer, x, y, x + largeur_vie, y + hauteur, makecol(0, 255, 0));
 }
@@ -187,6 +187,7 @@ int main() {
             deplacement_ennemi(&ennemis[i]);
             if (collision_vaisseau_ennemi(&vaisseau, &ennemis[i])) {
                 vies--;
+                vaisseau.nb_vie--;
                 ennemis[i].actif = 0;
             }
             for (int j = 0; j < MAX_PROJECTILES; j++) {
@@ -204,11 +205,13 @@ int main() {
                 draw_sprite(page, ennemi_img, ennemis[i].x, ennemis[i].y);
         }
 
-        textprintf_ex(page, font, 10, 10, makecol(255, 255, 255), -1, "Vies: %d", vies);
-        textprintf_ex(page, font, 10, 25, makecol(255, 255, 0), -1, "Score: %d", score);
+        textprintf_ex(page, font, 10, 10, makecol(255,255,255), -1, "Score: %d", score);
+        textprintf_ex(page, font, 10, 30, makecol(255,255,255), -1, "Temps restant: %d" /*LEVEL_TIME_LIMIT - game_time / 60*/);
+        textprintf_ex(page, font, 10, 50, makecol(255,255,255), -1, "Vies: %d", vies);
         afficher_barre_vie(page, &vaisseau);
         blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         rest(30);
+
     }
 
     if (vies == 0) {
