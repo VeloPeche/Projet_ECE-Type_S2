@@ -89,10 +89,19 @@ void afficher_barre_vie(BITMAP* buffer, Vaisseau* vaisseau) {
 
     // Cadre
     rect(buffer, x - 1, y - 1, x + largeur_max + 1, y + hauteur + 1, makecol(255, 255, 255));
-    // Fond rouge
-    rectfill(buffer, x, y, x + largeur_max, y + hauteur, makecol(0, 255, 0));
-    // Vie verte
-    rectfill(buffer, x, y, x + largeur_vie, y + hauteur, makecol(0, 255, 0));
+    // Fond
+    rectfill(buffer, x, y, x + largeur_max, y + hauteur, makecol(0, 0, 0));
+
+    int couleur_vie;
+    if (vaisseau->nb_vie > 2) {
+        couleur_vie = makecol(0, 255, 0);  // Vert
+    } else if (vaisseau->nb_vie == 2) {
+        couleur_vie = makecol(255, 255, 0);  // Jaune
+    } else {
+        couleur_vie = makecol(255, 0, 0);  // Rouge
+    }
+    rectfill(buffer, x, y, x + largeur_vie, y + hauteur, couleur_vie);
+
 }
 
 void afficher_menu(BITMAP *page, char *nom_joueur, int *selection, BITMAP *fond_menu) {
@@ -207,7 +216,7 @@ int main() {
     }
 
     // Initialisation du jeu
-    Vaisseau vaisseau = {50, 240, 4, 32, 32};
+    Vaisseau vaisseau = {50, 240, 4, 32, 32, VIES_INITIALES};
     Projectile projectiles[MAX_PROJECTILES] = {0};
     Ennemi ennemis[MAX_ENNEMIS] = {0};
     int vies = VIES_INITIALES;
