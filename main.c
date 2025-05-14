@@ -7,10 +7,12 @@
 
 #define MAX_PROJECTILES 10
 #define MAX_ENNEMIS 10
+#define MAX_MISSILES 20
 #define LARGEUR_ENNEMI 32
 #define HAUTEUR_ENNEMI 32
 #define VITESSE_ENNEMI 2
 #define VIES_INITIALES 3
+#define DUREE_NIVEAU 30
 
 typedef struct {
     int x, y;
@@ -27,12 +29,18 @@ typedef struct {
 typedef struct {
     int x, y;
     int actif;
+    int a_tire;
 } Ennemi;
+
+typedef struct {
+    int x, y;
+    int actif;
+} Missile;
 
 BITMAP *load_bitmap_check(char *nomImage) {
     BITMAP *bmp = load_bitmap(nomImage, NULL);
     if (!bmp) {
-        allegro_message("Erreur: %s non trouvé", nomImage);
+        allegro_message("Erreur: %s non trouv\u00e9", nomImage);
         exit(EXIT_FAILURE);
     }
     return bmp;
@@ -61,6 +69,36 @@ void deplacement_ennemi(Ennemi *e) {
     }
 }
 
+void tir_ennemi(Ennemi *ennemi, Missile *missiles) {
+    if (ennemi->actif && !ennemi->a_tire) {
+        for (int i = 0; i < MAX_MISSILES; i++) {
+            if (!missiles[i].actif) {
+                missiles[i].x = ennemi->x;
+                missiles[i].y = ennemi->y + HAUTEUR_ENNEMI / 2;
+                missiles[i].actif = 1;
+                ennemi->a_tire = 1;
+                break;
+            }
+        }
+    }
+}
+
+void deplacement_missile(Missile *m) {
+    if (m->actif) {
+        m->x -= 4;
+        if (m->x < 0) m->actif = 0;
+    }
+}
+
+void detecter_collision_missile_vaisseau(Missile *m, Vaisseau *vaisseau, int *vies) {
+    if (m->actif &&
+        vaisseau->x < m->x + 5 && vaisseau->x + vaisseau->largeur > m->x &&
+        vaisseau->y < m->y + 5 && vaisseau->y + vaisseau->hauteur > m->y) {
+        m->actif = 0;
+        (*vies)--;
+    }
+}
+
 void detecter_collisions(Projectile *proj, Ennemi *ennemi, int *score) {
     if (proj->actif && ennemi->actif) {
         if (proj->x >= ennemi->x && proj->x <= ennemi->x + LARGEUR_ENNEMI &&
@@ -83,52 +121,34 @@ void afficher_barre_vie(BITMAP* buffer, Vaisseau* vaisseau) {
     int largeur_max = 100;
     int hauteur = 10;
     int x = 10;
-    int y = 70;
+    int y = 50;
 
     int largeur_vie = (vaisseau->nb_vie * largeur_max) / max_vie;
 
-    // Cadre
     rect(buffer, x - 1, y - 1, x + largeur_max + 1, y + hauteur + 1, makecol(255, 255, 255));
-    // Fond
-    rectfill(buffer, x, y, x + largeur_max, y + hauteur, makecol(0, 0, 0));
-
-    int couleur_vie;
-    if (vaisseau->nb_vie > 2) {
-        couleur_vie = makecol(0, 255, 0);  // Vert
-    } else if (vaisseau->nb_vie == 2) {
-        couleur_vie = makecol(255, 255, 0);  // Jaune
-    } else {
-        couleur_vie = makecol(255, 0, 0);  // Rouge
-    }
-    rectfill(buffer, x, y, x + largeur_vie, y + hauteur, couleur_vie);
-
+    rectfill(buffer, x, y, x + largeur_max, y + hauteur, makecol(100, 0, 0));
+    rectfill(buffer, x, y, x + largeur_vie, y + hauteur, makecol(0, 255, 0));
 }
 
-void afficher_menu(BITMAP *page, char *nom_joueur, int *selection, BITMAP *fond_menu) {
-    clear_bitmap(page);
-    draw_sprite(page, fond_menu, 0, 0);  // Affichage du fond du menu
-
-    textout_centre_ex(page, font, "-----ECE-RTYPE-----", SCREEN_W / 2, 10, makecol(255, 255, 255), -1);
-
-    // Affichage du message de bienvenue
-    char bienvenue[50];
-    sprintf(bienvenue, "Bienvenue, %s!", nom_joueur);
-    textout_centre_ex(page, font, bienvenue, SCREEN_W / 2, 100, makecol(255, 255, 255), -1);
-
-    // Affichage du menu
-    textout_centre_ex(page, font, "1. Commencer le jeu", SCREEN_W / 2, SCREEN_H / 2 - 20, makecol(255, 255, 255), -1);
-    textout_centre_ex(page, font, "2. Reprendre une partie", SCREEN_W / 2, SCREEN_H / 2, makecol(255, 255, 255), -1);
-    textout_centre_ex(page, font, "3. Quitter", SCREEN_W / 2, SCREEN_H / 2 + 20, makecol(255, 255, 255), -1);
-
-    // Marquer la sélection actuelle
-    if (*selection == 1)
-        textout_centre_ex(page, font, "->", SCREEN_W / 2 - 100, SCREEN_H / 2 - 20, makecol(255, 0, 0), -1);
-    else if (*selection == 2)
-        textout_centre_ex(page, font, "->", SCREEN_W / 2 - 100, SCREEN_H / 2, makecol(255, 0, 0), -1);
-    else if (*selection == 3)
-        textout_centre_ex(page, font, "->", SCREEN_W / 2 - 100, SCREEN_H / 2 + 20, makecol(255, 0, 0), -1);
-
-    blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+void afficher_score_final(char* nom, int score) {
+    FILE* fichier = fopen("scores.txt", "a");
+    if (fichier) {
+        fprintf(fichier, "%s: %d\n", nom, score);
+        fclose(fichier);
+    }
+    FILE* fichier_lecture = fopen("scores.txt", "r");
+    if (fichier_lecture) {
+        clear_to_color(screen, makecol(0, 0, 0));
+        int y = 100;
+        char ligne[100];
+        textout_centre_ex(screen, font, "=== SCORES ===", SCREEN_W / 2, y - 30, makecol(255, 255, 255), -1);
+        while (fgets(ligne, sizeof(ligne), fichier_lecture) && y < SCREEN_H - 20) {
+            textout_centre_ex(screen, font, ligne, SCREEN_W / 2, y, makecol(255, 255, 0), -1);
+            y += 20;
+        }
+        fclose(fichier_lecture);
+        rest(4000);
+    }
 }
 
 int main() {
@@ -144,17 +164,14 @@ int main() {
     BITMAP *vaisseau_img = load_bitmap_check("Vaisseau.bmp");
     BITMAP *ennemi_img = load_bitmap_check("Fantome_rose.bmp");
 
-    // Menu nom joueur
     char nom[50] = "";
     int entree_valide = 0;
-
     while (!entree_valide) {
         clear_bitmap(page);
         draw_sprite(page, fond_menu, 0, 0);
         textout_centre_ex(page, font, "Entrez votre nom:", SCREEN_W / 2, 100, makecol(255, 255, 255), -1);
         textout_ex(page, font, nom, SCREEN_W / 2 - 50, 130, makecol(0, 255, 0), -1);
         blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
-
         if (keypressed()) {
             int k = readkey();
             char c = k & 0xff;
@@ -167,66 +184,18 @@ int main() {
         }
     }
 
-    // Sélection du menu
-    int selection = 0;
-    while (1) {
-        afficher_menu(page, nom, &selection, fond_menu);
-
-        // Vérifier la position de la souris et changer la sélection en fonction de la position
-        if (mouse_x > SCREEN_W / 2 - 100 && mouse_x < SCREEN_W / 2 + 100) {
-            if (mouse_y > SCREEN_H / 2 - 30 && mouse_y < SCREEN_H / 2) selection = 1;  // Option 1
-            if (mouse_y > SCREEN_H / 2 && mouse_y < SCREEN_H / 2 + 30) selection = 2;  // Option 2
-            if (mouse_y > SCREEN_H / 2 + 30 && mouse_y < SCREEN_H / 2 + 60) selection = 3;  // Option 3
-        }
-
-        // Gérer les entrées clavier
-        if (key[KEY_UP]) {
-            if (selection > 1) selection--;
-            rest(150);  // Pause pour éviter la répétition trop rapide
-        }
-        if (key[KEY_DOWN]) {
-            if (selection < 3) selection++;
-            rest(150);
-        }
-        if (key[KEY_ENTER]) {
-            if (selection == 1) {
-                break;  // Commencer le jeu
-            } else if (selection == 2) {
-                break;  // Reprendre une partie
-            } else if (selection == 3) {
-                allegro_exit();
-                exit(0);  // Quitter le jeu
-            }
-        }
-
-        if (mouse_b & 1) {
-            if (selection == 3) {
-                allegro_exit();
-                exit(0);
-            }
-            if (selection == 1) {
-                // Commencer le jeu
-                break;
-            }
-            if (selection == 2) {
-                // Reprendre une partie
-                break;
-            }
-        }
-    }
-
-    // Initialisation du jeu
     Vaisseau vaisseau = {50, 240, 4, 32, 32, VIES_INITIALES};
     Projectile projectiles[MAX_PROJECTILES] = {0};
     Ennemi ennemis[MAX_ENNEMIS] = {0};
+    Missile missiles[MAX_MISSILES] = {0};
     int vies = VIES_INITIALES;
     int score = 0;
     int screenx = 0;
     clock_t dernier_tir = 0;
     const int temps_tir = 500;
+    time_t debut_niveau = time(NULL);
 
-    // Boucle principale du jeu
-    while (!key[KEY_ESC] && vies > 0) {
+    while (!key[KEY_ESC] && vies > 0 && difftime(time(NULL), debut_niveau) < DUREE_NIVEAU) {
         clear_bitmap(page);
         screenx += 2;
         if (screenx > fond->w - SCREEN_W) screenx = 0;
@@ -242,8 +211,8 @@ int main() {
         if (key[KEY_SPACE] && (clock() - dernier_tir >= temps_tir)) {
             for (int i = 0; i < MAX_PROJECTILES; i++) {
                 if (!projectiles[i].actif) {
-                    projectiles[i].x = vaisseau.x + vaisseau.largeur;
-                    projectiles[i].y = vaisseau.y + vaisseau.hauteur / 2;
+                    projectiles[i].x = vaisseau.x + vaisseau.largeur+25;
+                    projectiles[i].y = vaisseau.y + vaisseau.hauteur+2 / 2;
                     projectiles[i].actif = 1;
                     dernier_tir = clock();
                     break;
@@ -251,13 +220,13 @@ int main() {
             }
         }
 
-        // Spawn ennemi aléatoire
         if (rand() % 60 == 0) {
             for (int i = 0; i < MAX_ENNEMIS; i++) {
                 if (!ennemis[i].actif) {
                     ennemis[i].actif = 1;
                     ennemis[i].x = SCREEN_W;
                     ennemis[i].y = rand() % (SCREEN_H - HAUTEUR_ENNEMI);
+                    ennemis[i].a_tire = 0;
                     break;
                 }
             }
@@ -271,12 +240,17 @@ int main() {
             deplacement_ennemi(&ennemis[i]);
             if (collision_vaisseau_ennemi(&vaisseau, &ennemis[i])) {
                 vies--;
-                vaisseau.nb_vie--;
                 ennemis[i].actif = 0;
             }
             for (int j = 0; j < MAX_PROJECTILES; j++) {
                 detecter_collisions(&projectiles[j], &ennemis[i], &score);
             }
+            tir_ennemi(&ennemis[i], missiles);
+        }
+
+        for (int i = 0; i < MAX_MISSILES; i++) {
+            deplacement_missile(&missiles[i]);
+            detecter_collision_missile_vaisseau(&missiles[i], &vaisseau, &vies);
         }
 
         draw_sprite(page, vaisseau_img, vaisseau.x, vaisseau.y);
@@ -288,20 +262,23 @@ int main() {
             if (ennemis[i].actif)
                 draw_sprite(page, ennemi_img, ennemis[i].x, ennemis[i].y);
         }
+        for (int i = 0; i < MAX_MISSILES; i++) {
+            if (missiles[i].actif)
+                rectfill(page, missiles[i].x, missiles[i].y, missiles[i].x + 5, missiles[i].y + 5, makecol(0, 255, 255));
+        }
 
-        textprintf_ex(page, font, 10, 10, makecol(255,255,255), -1, "Score: %d", score);
-        textprintf_ex(page, font, 10, 30, makecol(255,255,255), -1, "Temps restant: %d" /*LEVEL_TIME_LIMIT - game_time / 60*/);
-        textprintf_ex(page, font, 10, 50, makecol(255,255,255), -1, "Vies: %d", vies);
+        textprintf_ex(page, font, 10, 10, makecol(255, 255, 255), -1, "Vies: %d", vies);
+        textprintf_ex(page, font, 10, 25, makecol(255, 255, 0), -1, "Score: %d", score);
+        int temps_restant = DUREE_NIVEAU - (int)difftime(time(NULL), debut_niveau);
+        textprintf_ex(page, font, SCREEN_W - 150, 10, makecol(0, 255, 0), -1, "Temps restant: %ds", temps_restant);
         afficher_barre_vie(page, &vaisseau);
         blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         rest(30);
-
     }
 
-    if (vies == 0) {
-        textout_centre_ex(screen, font, "GAME OVER", SCREEN_W / 2, SCREEN_H / 2, makecol(255, 0, 0), -1);
-        rest(2000);
-    }
+    textout_centre_ex(screen, font, "GAME OVER", SCREEN_W / 2, SCREEN_H / 2, makecol(255, 0, 0), -1);
+    rest(2000);
+    afficher_score_final(nom, score);
 
     destroy_bitmap(page);
     destroy_bitmap(fond);
