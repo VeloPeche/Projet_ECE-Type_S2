@@ -95,7 +95,6 @@ void afficher_barre_vie(BITMAP* buffer, Vaisseau* vaisseau) {
     rectfill(buffer, x, y, x + largeur_vie, y + hauteur, makecol(0, 255, 0));
 }
 
-
 int main() {
     allegro_init(); install_keyboard(); install_mouse();
     set_color_depth(32);
