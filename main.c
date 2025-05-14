@@ -21,6 +21,7 @@ typedef struct {
     int x, y;
     int vitesse;
     int largeur, hauteur;
+    int nb_vie;
 } Vaisseau;
 
 typedef struct {
@@ -76,6 +77,24 @@ int collision_vaisseau_ennemi(Vaisseau *vaisseau, Ennemi *ennemi) {
            vaisseau->x < ennemi->x + LARGEUR_ENNEMI && vaisseau->x + vaisseau->largeur > ennemi->x &&
            vaisseau->y < ennemi->y + HAUTEUR_ENNEMI && vaisseau->y + vaisseau->hauteur > ennemi->y;
 }
+
+void afficher_barre_vie(BITMAP* buffer, Vaisseau* vaisseau) {
+    int max_vie = 3;
+    int largeur_max = 100;
+    int hauteur = 10;
+    int x = 10;
+    int y = 50;
+
+    int largeur_vie = (vaisseau->nb_vie * largeur_max) / max_vie;
+
+    // Cadre
+    rect(buffer, x - 1, y - 1, x + largeur_max + 1, y + hauteur + 1, makecol(255, 255, 255));
+    // Fond rouge
+    rectfill(buffer, x, y, x + largeur_max, y + hauteur, makecol(100, 0, 0));
+    // Vie verte
+    rectfill(buffer, x, y, x + largeur_vie, y + hauteur, makecol(0, 255, 0));
+}
+
 
 int main() {
     allegro_init(); install_keyboard(); install_mouse();
@@ -188,6 +207,7 @@ int main() {
 
         textprintf_ex(page, font, 10, 10, makecol(255, 255, 255), -1, "Vies: %d", vies);
         textprintf_ex(page, font, 10, 25, makecol(255, 255, 0), -1, "Score: %d", score);
+        afficher_barre_vie(page, &vaisseau);
         blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         rest(30);
     }

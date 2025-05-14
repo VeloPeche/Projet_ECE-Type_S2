@@ -1,4 +1,4 @@
-set(CMAKE_C_COMPILER "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/gcc.exe")
+set(CMAKE_C_COMPILER "C:/Users/adrie/Downloads/MinGW/bin/gcc.exe")
 set(CMAKE_C_COMPILER_ARG1 "")
 set(CMAKE_C_COMPILER_ID "GNU")
 set(CMAKE_C_COMPILER_VERSION "6.3.0")
@@ -21,14 +21,14 @@ set(CMAKE_C_SIMULATE_VERSION "")
 
 
 
-set(CMAKE_AR "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/ar.exe")
-set(CMAKE_C_COMPILER_AR "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/gcc-ar.exe")
-set(CMAKE_RANLIB "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/ranlib.exe")
-set(CMAKE_C_COMPILER_RANLIB "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/gcc-ranlib.exe")
-set(CMAKE_LINKER "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/ld.exe")
+set(CMAKE_AR "C:/Users/adrie/Downloads/MinGW/bin/ar.exe")
+set(CMAKE_C_COMPILER_AR "C:/Users/adrie/Downloads/MinGW/bin/gcc-ar.exe")
+set(CMAKE_RANLIB "C:/Users/adrie/Downloads/MinGW/bin/ranlib.exe")
+set(CMAKE_C_COMPILER_RANLIB "C:/Users/adrie/Downloads/MinGW/bin/gcc-ranlib.exe")
+set(CMAKE_LINKER "C:/Users/adrie/Downloads/MinGW/bin/ld.exe")
 set(CMAKE_LINKER_LINK "")
 set(CMAKE_LINKER_LLD "")
-set(CMAKE_C_COMPILER_LINKER "c:/users/tkhat/downlo~1/mingwa~1/mingw/mingw32/bin/ld.exe")
+set(CMAKE_C_COMPILER_LINKER "c:/users/adrie/downloads/mingw/mingw32/bin/ld.exe")
 set(CMAKE_C_COMPILER_LINKER_ID "GNU")
 set(CMAKE_C_COMPILER_LINKER_VERSION 2.28)
 set(CMAKE_C_COMPILER_LINKER_FRONTEND_VARIANT GNU)
@@ -74,7 +74,7 @@ endif()
 
 
 
-set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/lib/gcc/mingw32/6.3.0/include;C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/include;C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/lib/gcc/mingw32/6.3.0/include-fixed;C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/mingw32/include")
+set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/adrie/Downloads/MinGW/lib/gcc/mingw32/6.3.0/include;C:/Users/adrie/Downloads/MinGW/include;C:/Users/adrie/Downloads/MinGW/lib/gcc/mingw32/6.3.0/include-fixed;C:/Users/adrie/Downloads/MinGW/mingw32/include;/MinGW/include")
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "mingw32;gcc;moldname;mingwex;advapi32;shell32;user32;kernel32;mingw32;gcc;moldname;mingwex")
-set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/lib/gcc/mingw32/6.3.0;C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/lib/gcc;C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/mingw32/lib;C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/lib")
+set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "C:/Users/adrie/Downloads/MinGW/lib/gcc/mingw32/6.3.0;C:/Users/adrie/Downloads/MinGW/lib/gcc;C:/Users/adrie/Downloads/MinGW/mingw32/lib;C:/Users/adrie/Downloads/MinGW/lib")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")
