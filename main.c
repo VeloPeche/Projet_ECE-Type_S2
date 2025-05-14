@@ -541,4 +541,15 @@ int main(){
 }
 END_OF_MAIN()
 
-//test
+
+
+//for (int i = 0; i < NB_PROJECTILES_ENNEMIS; i++) {
+    //if (projectiles_ennemis[i].actif) {
+        //rectfill(buffer,
+                 //projectiles_ennemis[i].x,
+                 //projectiles_ennemis[i].y,
+                 //projectiles_ennemis[i].x + 4,
+                 //projectiles_ennemis[i].y + 10,
+                // makecol(255, 0, 0));
+    }
+}
