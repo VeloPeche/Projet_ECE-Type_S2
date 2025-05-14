@@ -95,6 +95,33 @@ void afficher_barre_vie(BITMAP* buffer, Vaisseau* vaisseau) {
     rectfill(buffer, x, y, x + largeur_vie, y + hauteur, makecol(0, 255, 0));
 }
 
+void afficher_menu(BITMAP *page, char *nom_joueur, int *selection, BITMAP *fond_menu) {
+    clear_bitmap(page);
+    draw_sprite(page, fond_menu, 0, 0);  // Affichage du fond du menu
+
+    textout_centre_ex(page, font, "-----ECE-RTYPE-----", SCREEN_W / 2, 10, makecol(255, 255, 255), -1);
+
+    // Affichage du message de bienvenue
+    char bienvenue[50];
+    sprintf(bienvenue, "Bienvenue, %s!", nom_joueur);
+    textout_centre_ex(page, font, bienvenue, SCREEN_W / 2, 100, makecol(255, 255, 255), -1);
+
+    // Affichage du menu
+    textout_centre_ex(page, font, "1. Commencer le jeu", SCREEN_W / 2, SCREEN_H / 2 - 20, makecol(255, 255, 255), -1);
+    textout_centre_ex(page, font, "2. Reprendre une partie", SCREEN_W / 2, SCREEN_H / 2, makecol(255, 255, 255), -1);
+    textout_centre_ex(page, font, "3. Quitter", SCREEN_W / 2, SCREEN_H / 2 + 20, makecol(255, 255, 255), -1);
+
+    // Marquer la sélection actuelle
+    if (*selection == 1)
+        textout_centre_ex(page, font, "->", SCREEN_W / 2 - 100, SCREEN_H / 2 - 20, makecol(255, 0, 0), -1);
+    else if (*selection == 2)
+        textout_centre_ex(page, font, "->", SCREEN_W / 2 - 100, SCREEN_H / 2, makecol(255, 0, 0), -1);
+    else if (*selection == 3)
+        textout_centre_ex(page, font, "->", SCREEN_W / 2 - 100, SCREEN_H / 2 + 20, makecol(255, 0, 0), -1);
+
+    blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+}
+
 int main() {
     allegro_init(); install_keyboard(); install_mouse();
     set_color_depth(32);
@@ -127,6 +154,34 @@ int main() {
             else if (isprint(c) && strlen(nom) < 49) {
                 nom[strlen(nom)] = c;
                 nom[strlen(nom) + 1] = '\0';
+            }
+        }
+    }
+
+    // Sélection du menu
+    int selection = 1;
+    while (1) {
+        afficher_menu(page, nom, &selection, fond_menu);
+
+        // Vérifier la position de la souris et changer la sélection en fonction de la position
+        if (mouse_x > SCREEN_W / 2 - 100 && mouse_x < SCREEN_W / 2 + 100) {
+            if (mouse_y > SCREEN_H / 2 - 30 && mouse_y < SCREEN_H / 2) selection = 1;  // Option 1
+            if (mouse_y > SCREEN_H / 2 && mouse_y < SCREEN_H / 2 + 30) selection = 2;  // Option 2
+            if (mouse_y > SCREEN_H / 2 + 30 && mouse_y < SCREEN_H / 2 + 60) selection = 3;  // Option 3
+        }
+
+        if (mouse_b & 1) {
+            if (selection == 3) {
+                allegro_exit();
+                exit(0);
+            }
+            if (selection == 1) {
+                // Commencer le jeu
+                break;
+            }
+            if (selection == 2) {
+                // Reprendre une partie
+                break;
             }
         }
     }
