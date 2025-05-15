@@ -6,7 +6,10 @@
 void deplacer_vaisseau(Vaisseau *v, int dx, int dy);
 void deplacer_projectile(Projectile *p);
 void deplacer_ennemi(Ennemi *e);
+void deplacer_coeur(Coeur *c);
 void detecter_collision_projectile(Projectile *pr, Ennemi *en, int *score);
 int  collision_vaisseau_ennemi(const Vaisseau *v, const Ennemi *e);
+int collision_vaisseau_coeur(const Vaisseau *v, const Coeur *c);
+
 
 #endif // DEPLACEMENTS_H
