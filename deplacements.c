@@ -1,5 +1,5 @@
 #include "deplacements.h"
-#include "unitaires.h"
+#include "utilitaires.h"
 
 void deplacer_vaisseau(Vaisseau *v,int dx,int dy){
     v->x+=dx; v->y+=dy;
