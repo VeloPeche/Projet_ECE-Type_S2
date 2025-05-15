@@ -57,6 +57,54 @@ build CMakeFiles/ProjetTypeS2.dir/main.c.obj: C_COMPILER__ProjetTypeS2_unscanned
   TARGET_COMPILE_PDB = CMakeFiles\ProjetTypeS2.dir\
   TARGET_PDB = ProjetTypeS2.pdb
 
+build CMakeFiles/ProjetTypeS2.dir/utilitaires.c.obj: C_COMPILER__ProjetTypeS2_unscanned_Debug C$:/Users/tkhat/Desktop/Informatique/Projet$ Ingé1$ S2/ProjetTypeS2/utilitaires.c || cmake_object_order_depends_target_ProjetTypeS2
+  DEP_FILE = CMakeFiles\ProjetTypeS2.dir\utilitaires.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProjetTypeS2.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProjetTypeS2.dir
+  TARGET_COMPILE_PDB = CMakeFiles\ProjetTypeS2.dir\
+  TARGET_PDB = ProjetTypeS2.pdb
+
+build CMakeFiles/ProjetTypeS2.dir/affichage.c.obj: C_COMPILER__ProjetTypeS2_unscanned_Debug C$:/Users/tkhat/Desktop/Informatique/Projet$ Ingé1$ S2/ProjetTypeS2/affichage.c || cmake_object_order_depends_target_ProjetTypeS2
+  DEP_FILE = CMakeFiles\ProjetTypeS2.dir\affichage.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProjetTypeS2.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProjetTypeS2.dir
+  TARGET_COMPILE_PDB = CMakeFiles\ProjetTypeS2.dir\
+  TARGET_PDB = ProjetTypeS2.pdb
+
+build CMakeFiles/ProjetTypeS2.dir/deplacements.c.obj: C_COMPILER__ProjetTypeS2_unscanned_Debug C$:/Users/tkhat/Desktop/Informatique/Projet$ Ingé1$ S2/ProjetTypeS2/deplacements.c || cmake_object_order_depends_target_ProjetTypeS2
+  DEP_FILE = CMakeFiles\ProjetTypeS2.dir\deplacements.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProjetTypeS2.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProjetTypeS2.dir
+  TARGET_COMPILE_PDB = CMakeFiles\ProjetTypeS2.dir\
+  TARGET_PDB = ProjetTypeS2.pdb
+
+build CMakeFiles/ProjetTypeS2.dir/sauvegarde.c.obj: C_COMPILER__ProjetTypeS2_unscanned_Debug C$:/Users/tkhat/Desktop/Informatique/Projet$ Ingé1$ S2/ProjetTypeS2/sauvegarde.c || cmake_object_order_depends_target_ProjetTypeS2
+  DEP_FILE = CMakeFiles\ProjetTypeS2.dir\sauvegarde.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProjetTypeS2.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProjetTypeS2.dir
+  TARGET_COMPILE_PDB = CMakeFiles\ProjetTypeS2.dir\
+  TARGET_PDB = ProjetTypeS2.pdb
+
+build CMakeFiles/ProjetTypeS2.dir/niveau.c.obj: C_COMPILER__ProjetTypeS2_unscanned_Debug C$:/Users/tkhat/Desktop/Informatique/Projet$ Ingé1$ S2/ProjetTypeS2/niveau.c || cmake_object_order_depends_target_ProjetTypeS2
+  DEP_FILE = CMakeFiles\ProjetTypeS2.dir\niveau.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProjetTypeS2.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProjetTypeS2.dir
+  TARGET_COMPILE_PDB = CMakeFiles\ProjetTypeS2.dir\
+  TARGET_PDB = ProjetTypeS2.pdb
+
+build CMakeFiles/ProjetTypeS2.dir/pause.c.obj: C_COMPILER__ProjetTypeS2_unscanned_Debug C$:/Users/tkhat/Desktop/Informatique/Projet$ Ingé1$ S2/ProjetTypeS2/pause.c || cmake_object_order_depends_target_ProjetTypeS2
+  DEP_FILE = CMakeFiles\ProjetTypeS2.dir\pause.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProjetTypeS2.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProjetTypeS2.dir
+  TARGET_COMPILE_PDB = CMakeFiles\ProjetTypeS2.dir\
+  TARGET_PDB = ProjetTypeS2.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target ProjetTypeS2
@@ -65,7 +113,7 @@ build CMakeFiles/ProjetTypeS2.dir/main.c.obj: C_COMPILER__ProjetTypeS2_unscanned
 #############################################
 # Link the executable ProjetTypeS2.exe
 
-build ProjetTypeS2.exe: C_EXECUTABLE_LINKER__ProjetTypeS2_Debug CMakeFiles/ProjetTypeS2.dir/main.c.obj
+build ProjetTypeS2.exe: C_EXECUTABLE_LINKER__ProjetTypeS2_Debug CMakeFiles/ProjetTypeS2.dir/main.c.obj CMakeFiles/ProjetTypeS2.dir/utilitaires.c.obj CMakeFiles/ProjetTypeS2.dir/affichage.c.obj CMakeFiles/ProjetTypeS2.dir/deplacements.c.obj CMakeFiles/ProjetTypeS2.dir/sauvegarde.c.obj CMakeFiles/ProjetTypeS2.dir/niveau.c.obj CMakeFiles/ProjetTypeS2.dir/pause.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lmingw32  -lalleg44  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\ProjetTypeS2.dir

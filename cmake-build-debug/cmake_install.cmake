@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/adrie/CLionProjects/Projet_ECE-Type_S2
+# Install script for directory: C:/Users/tkhat/Desktop/Informatique/Projet Ingé1 S2/ProjetTypeS2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Users/adrie/Downloads/MinGW/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/adrie/CLionProjects/Projet_ECE-Type_S2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/tkhat/Desktop/Informatique/Projet Ingé1 S2/ProjetTypeS2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -1,10 +1,10 @@
-"C:\Program Files\JetBrains\CLion 2024.2.1\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles" -S C:\Users\adrie\CLionProjects\Projet_ECE-Type_S2 -B C:\Users\adrie\CLionProjects\Projet_ECE-Type_S2\cmake-build-debug
+"C:\Users\tkhat\AppData\Local\JetBrains\CLion 2024.2.1\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Users/tkhat/AppData/Local/JetBrains/CLion 2024.2.1/bin/ninja/win/x64/ninja.exe" -G Ninja -S "C:\Users\tkhat\Desktop\Informatique\Projet Ingé1 S2\ProjetTypeS2" -B "C:\Users\tkhat\Desktop\Informatique\Projet Ingé1 S2\ProjetTypeS2\cmake-build-debug"
 -- The C compiler identification is GNU 6.3.0
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
--- Check for working C compiler: C:/Users/adrie/Downloads/MinGW/bin/gcc.exe - skipped
+-- Check for working C compiler: C:/Users/tkhat/Downloads/MinGW avec Allegro 4/MinGW/bin/gcc.exe - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Configuring done (1.1s)
+-- Configuring done (1.6s)
 -- Generating done (0.0s)
--- Build files have been written to: C:/Users/adrie/CLionProjects/Projet_ECE-Type_S2/cmake-build-debug
+-- Build files have been written to: C:/Users/tkhat/Desktop/Informatique/Projet Ingé1 S2/ProjetTypeS2/cmake-build-debug
