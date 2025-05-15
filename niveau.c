@@ -38,3 +38,14 @@ int demander_niveau(BITMAP *page, BITMAP *fond_menu) {
     clear_keybuf();
     return niveau;
 }
+
+
+int vitesse_ennemi_selon_niveau(int niveau) {
+    switch(niveau){
+        case 1: return VITESSE_ENNEMI_N1;
+        case 2: return VITESSE_ENNEMI_N2;
+        case 3: return VITESSE_ENNEMI_N3;
+        default: return VITESSE_ENNEMI_N1;
+    }
+}
+
