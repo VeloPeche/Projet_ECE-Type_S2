@@ -49,3 +49,12 @@ int vitesse_ennemi_selon_niveau(int niveau) {
     }
 }
 
+int vitesse_coeur_selon_niveau(int niveau) {
+    switch(niveau){
+        case 1: return VITESSE_COEUR_N1;
+        case 2: return VITESSE_COEUR_N2;
+        case 3: return VITESSE_COEUR_N3;
+        default: return VITESSE_COEUR_N1;
+    }
+}
+
