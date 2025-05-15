@@ -48,7 +48,6 @@ int vitesse_ennemi_selon_niveau(int niveau) {
         default: return VITESSE_ENNEMI_N1;
     }
 }
-
 int vitesse_coeur_selon_niveau(int niveau) {
     switch(niveau){
         case 1: return VITESSE_COEUR_N1;

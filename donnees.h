@@ -25,4 +25,3 @@ typedef struct { int x, y, actif; } Coeur;
 
 #endif // DONNEES_H
 
-

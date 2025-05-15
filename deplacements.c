@@ -1,5 +1,25 @@
 #include "deplacements.h"
 #include "utilitaires.h"
+#include "deplacements.h"
+
+// … vos autres includes …
+
+void deplacer_missile(Missile *m){
+    if(!m->actif) return;
+    m->x -= VITESSE_MISSILE;
+    if(m->x < 0) m->actif = 0;
+}
+
+void detecter_collision_missile_vers_vaisseau(Missile *m, Vaisseau *v){
+    if(!m->actif) return;
+    // AABB missile 1×1 (ou taille que vous voulez) vs vaisseau
+    if( v->x < m->x && v->x + v->largeur > m->x &&
+        v->y < m->y && v->y + v->hauteur > m->y )
+    {
+        m->actif = 0;
+        v->nb_vie--;
+    }
+}
 
 void deplacer_vaisseau(Vaisseau *v,int dx,int dy){
     v->x+=dx; v->y+=dy;
