@@ -11,6 +11,7 @@
 #include "sauvegarde.h"
 #include "niveau.h"
 
+
 int main(){
     srand(time(NULL));
     allegro_init();
@@ -95,6 +96,9 @@ int main(){
             // Utilisation de la fonction demander_niveau pour choisir le niveau
             int niveau_choisi = demander_niveau(page, fond_menu);
 
+            // Récupération de la vitesse ennemis selon le niveau choisi
+            int vitesse_ennemi = vitesse_ennemi_selon_niveau(niveau_choisi);
+
             // – initialisation jeu –
             Vaisseau v = {50,240,5,32,32,VIES_INITIALES};
             Projectile projectiles[MAX_PROJECTILES] = {{0}};
@@ -147,9 +151,14 @@ int main(){
                 }
 
                 for(int i=0;i<MAX_ENNEMIS;i++){
-                    deplacer_ennemi(&ennemis[i]);
+                    if(ennemis[i].actif){
+                        ennemis[i].x -= vitesse_ennemi;
+                        if(ennemis[i].x < -HAUTEUR_ENNEMI)
+                            ennemis[i].actif = 0;
+                    }
                     if(collision_vaisseau_ennemi(&v,&ennemis[i])){
-                        v.nb_vie--; ennemis[i].actif=0;
+                        v.nb_vie--;
+                        ennemis[i].actif=0;
                     }
                     for(int j=0;j<MAX_PROJECTILES;j++){
                         detecter_collision_projectile(
