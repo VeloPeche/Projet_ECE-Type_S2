@@ -23,6 +23,13 @@ void deplacer_ennemi(Ennemi *e){
     }
 }
 
+void deplacer_coeur(Coeur *c){
+    if(c->actif){
+        c->x-=VITESSE_COEUR;
+        if(c->x< -LARGEUR_COEUR) c->actif=0;
+    }
+}
+
 void detecter_collision_projectile(Projectile *pr, Ennemi *en, int *score){
     if(pr->actif && en->actif &&
        pr->x>=en->x && pr->x<=en->x+LARGEUR_ENNEMI &&
@@ -36,4 +43,10 @@ int collision_vaisseau_ennemi(const Vaisseau *v, const Ennemi *e){
     return e->actif &&
            v->x<e->x+LARGEUR_ENNEMI && v->x+v->largeur>e->x &&
            v->y<e->y+HAUTEUR_ENNEMI && v->y+v->hauteur>e->y;
+}
+
+int collision_vaisseau_coeur(const Vaisseau *v, const Coeur *c){
+    return c->actif &&
+           v->x<c->x+LARGEUR_COEUR && v->x+v->largeur>c->x &&
+           v->y<c->y+HAUTEUR_COEUR && v->y+v->hauteur>c->y;
 }
