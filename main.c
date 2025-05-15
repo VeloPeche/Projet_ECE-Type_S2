@@ -273,6 +273,8 @@ int main(){
                               makecol(255,255,0), -1,
                               "Temps: %ds", rem);
                 afficher_barre_de_vie(page, &v);
+                textprintf_ex(page, font, 10,80, makecol(255,255,255), -1,
+                              "Pause : P");
 
                 blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
                 rest(30);
