@@ -15,5 +15,7 @@ add_executable(ProjetTypeS2 main.c
         sauvegarde.h
         niveau.c
         niveau.h
+        pause.h
+        pause.c
 )
 target_link_libraries(ProjetTypeS2 -lmingw32 -lalleg44)

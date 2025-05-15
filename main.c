@@ -10,7 +10,7 @@
 #include "affichage.h"
 #include "sauvegarde.h"
 #include "niveau.h"
-
+#include "pause.h"
 
 int main(){
     srand(time(NULL));
@@ -122,6 +122,10 @@ int main(){
                 if(key[KEY_DOWN])  dy= v.vitesse;
                 if(key[KEY_LEFT])  dx=-v.vitesse;
                 if(key[KEY_RIGHT]) dx= v.vitesse;
+                if(key[KEY_P]){
+                    gerer_pause(page);
+                }
+
                 deplacer_vaisseau(&v,dx,dy);
 
                 if(key[KEY_SPACE] && clock()-last_tir>=tir_delay){
