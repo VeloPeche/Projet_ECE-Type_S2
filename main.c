@@ -28,6 +28,8 @@ int main(){
     BITMAP *fond         = charger_bitmap_sure("Fond1600x600.bmp");
     BITMAP *vaisseau_img = charger_bitmap_sure("Vaisseau.bmp");
     BITMAP *ennemi_img   = charger_bitmap_sure("Fantome_rose.bmp");
+    BITMAP *coeur_img    = charger_bitmap_sure("Pacman4.bmp");
+
 
     // 1) saisie pseudo
     char pseudo[50] = "";
@@ -99,10 +101,14 @@ int main(){
             // Récupération de la vitesse ennemis selon le niveau choisi
             int vitesse_ennemi = vitesse_ennemi_selon_niveau(niveau_choisi);
 
+            // Récupération de la vitesse coeurs selon le niveau choisi
+            int vitesse_coeur = vitesse_coeur_selon_niveau(niveau_choisi);
+
             // – initialisation jeu –
             Vaisseau v = {50,240,5,32,32,VIES_INITIALES};
             Projectile projectiles[MAX_PROJECTILES] = {{0}};
             Ennemi    ennemis[MAX_ENNEMIS]         = {{0}};
+            Coeur    coeurs[MAX_COEURS]         = {{0}};
             int vies=VIES_INITIALES, score=0, level=niveau_choisi;
             int screenx=0;
             clock_t last_tir=0; const int tir_delay=500;
@@ -154,6 +160,17 @@ int main(){
                     }
                 }
 
+                if(rand()%100==0){
+                    for(int i=0;i<MAX_COEURS;i++){
+                        if(!coeurs[i].actif){
+                            coeurs[i].actif=1;
+                            coeurs[i].x   = SCREEN_W;
+                            coeurs[i].y   = rand()%(SCREEN_H-HAUTEUR_COEUR);
+                            break;
+                        }
+                    }
+                }
+
                 for(int i=0;i<MAX_ENNEMIS;i++){
                     if(ennemis[i].actif){
                         ennemis[i].x -= vitesse_ennemi;
@@ -173,6 +190,22 @@ int main(){
                     }
                 }
 
+                for(int i=0;i<MAX_COEURS;i++){
+                    if(coeurs[i].actif){
+                        coeurs[i].x -= vitesse_coeur;
+                        if(coeurs[i].x < -HAUTEUR_COEUR)
+                            coeurs[i].actif = 0;
+                    }
+                    if(collision_vaisseau_coeur(&v,&coeurs[i])){
+                        if (v.nb_vie==3) {
+                            coeurs[i].actif=0;
+                        }
+                        else {
+                            v.nb_vie++;
+                        }
+                    }
+                }
+
                 draw_sprite(page, vaisseau_img, v.x, v.y);
                 for(int i=0;i<MAX_PROJECTILES;i++){
                     if(projectiles[i].actif)
@@ -186,6 +219,18 @@ int main(){
                     if(ennemis[i].actif)
                         draw_sprite(page,ennemi_img,
                                     ennemis[i].x, ennemis[i].y);
+                }
+
+                for(int i=0;i<MAX_COEURS;i++){
+                    if(coeurs[i].actif)
+                        stretch_sprite(
+                                    page,
+                                    coeur_img,
+                                    coeurs[i].x,
+                                    coeurs[i].y,
+                                    coeur_img->w / 2,   // Largeur divisée par 2
+                                    coeur_img->h / 2    // Hauteur divisée par 2
+                                    );
                 }
 
                 textprintf_ex(page,font,10,10,makecol(255,255,255),-1,
