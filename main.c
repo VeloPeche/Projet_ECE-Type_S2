@@ -29,7 +29,7 @@ int main(){
     BITMAP *fond         = charger_bitmap_sure("Fond1600x600.bmp");
     BITMAP *vaisseau_img = charger_bitmap_sure("Vaisseau.bmp");
     BITMAP *ennemi_img   = charger_bitmap_sure("Fantome_rose.bmp");
-    BITMAP *coeur_img    = charger_bitmap_sure("Pacman4.bmp");
+    BITMAP *coeur_img    = charger_bitmap_sure("coeur_magenta.bmp");
 
     // --- Saisie du pseudo ---
     char pseudo[50] = "";
@@ -180,7 +180,7 @@ int main(){
                 }
 
                 // 7) Spawn de cœurs bonus
-                if (rand()%100 == 0) {
+                if (rand()%200 == 0) {
                     for (int c = 0; c < MAX_COEURS; c++) {
                         if (!coeurs[c].actif) {
                             coeurs[c].actif = 1;
@@ -258,7 +258,7 @@ int main(){
                     if (coeurs[c].actif)
                         stretch_sprite(page, coeur_img,
                             coeurs[c].x, coeurs[c].y,
-                            coeur_img->w/2, coeur_img->h/2
+                            coeur_img->w/5, coeur_img->h/5
                         );
                 }
 
