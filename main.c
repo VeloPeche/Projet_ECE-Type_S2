@@ -3,12 +3,13 @@
 #include <time.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdio.h>
 
-#include "donnees.h"
-#include "utilitaires.h"
-#include "deplacements.h"
+#include "unitaires.h"
+#include "deplacement.h"
 #include "affichage.h"
-#include "sauvegarde.h"
+#include "sauvgarde.h"
+#include "niveau.h"
 
 int main(){
     srand(time(NULL));
@@ -87,108 +88,118 @@ int main(){
                     break;
                 }
             }
-        }
-
-        // – initialisation jeu –
-        Vaisseau v = {50,240,5,32,32,VIES_INITIALES};
-        Projectile projectiles[MAX_PROJECTILES] = {{0}};
-        Ennemi    ennemis[MAX_ENNEMIS]         = {{0}};
-        int vies=VIES_INITIALES, score=0, level=1;
-        int screenx=0;
-        clock_t last_tir=0; const int tir_delay=500;
-        time_t debut = time(NULL);
-
-        // – boucle de jeu –
-        while(!key[KEY_ESC] && v.nb_vie>0
-              && difftime(time(NULL),debut)<DUREE_NIVEAU)
-        {
-            screenx+=2;
-            if(screenx>fond->w-SCREEN_W) screenx=0;
-            clear_bitmap(page);
-            blit(fond,page,screenx,0,0,0,SCREEN_W,SCREEN_H);
-
-            int dx=0, dy=0;
-            if(key[KEY_UP])    dy=-v.vitesse;
-            if(key[KEY_DOWN])  dy= v.vitesse;
-            if(key[KEY_LEFT])  dx=-v.vitesse;
-            if(key[KEY_RIGHT]) dx= v.vitesse;
-            deplacer_vaisseau(&v,dx,dy);
-
-            if(key[KEY_SPACE] && clock()-last_tir>=tir_delay){
-                for(int i=0;i<MAX_PROJECTILES;i++){
-                    if(!projectiles[i].actif){
-                        projectiles[i].x     = v.x + v.largeur + 25;
-                        projectiles[i].y     = v.y + v.hauteur+1/2;
-                        projectiles[i].actif = 1;
-                        last_tir = clock();
-                        break;
-                    }
-                }
-            }
-
-            for(int i=0;i<MAX_PROJECTILES;i++)
-                deplacer_projectile(&projectiles[i]);
-
-            if(rand()%30==0){
-                for(int i=0;i<MAX_ENNEMIS;i++){
-                    if(!ennemis[i].actif){
-                        ennemis[i].actif=1;
-                        ennemis[i].x   = SCREEN_W;
-                        ennemis[i].y   = rand()%(SCREEN_H-HAUTEUR_ENNEMI);
-                        break;
-                    }
-                }
-            }
-
-            for(int i=0;i<MAX_ENNEMIS;i++){
-                deplacer_ennemi(&ennemis[i]);
-                if(collision_vaisseau_ennemi(&v,&ennemis[i])){
-                    v.nb_vie--; ennemis[i].actif=0;
-                }
-                for(int j=0;j<MAX_PROJECTILES;j++){
-                    detecter_collision_projectile(
-                        &projectiles[j],
-                        &ennemis[i],
-                        &score
-                    );
-                }
-            }
-
-            draw_sprite(page, vaisseau_img, v.x, v.y);
-            for(int i=0;i<MAX_PROJECTILES;i++){
-                if(projectiles[i].actif)
-                    rectfill(page,
-                        projectiles[i].x, projectiles[i].y,
-                        projectiles[i].x+5,projectiles[i].y+5,
-                        makecol(255,0,0)
-                    );
-            }
-            for(int i=0;i<MAX_ENNEMIS;i++){
-                if(ennemis[i].actif)
-                    draw_sprite(page,ennemi_img,
-                                ennemis[i].x, ennemis[i].y);
-            }
-
-            textprintf_ex(page,font,10,10,makecol(255,255,255),-1,
-                          "Score: %d", score);
-            textprintf_ex(page,font,10,30,makecol(255,255,255),-1,
-                          "Vies : %d", v.nb_vie);
-            int rem = DUREE_NIVEAU - (int)difftime(time(NULL), debut);
-            if(rem<0) rem=0;
-            textprintf_ex(page,font,SCREEN_W-100,10,
-                          makecol(255,255,0),-1,
-                          "Temps: %ds", rem);
-            afficher_barre_de_vie(page, &v);
-
-            blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
             rest(30);
         }
 
-        if(score>best_score)    best_score=score;
-        if(level>best_level)    best_level=level;
-        ecrire_sauvegarde(pseudo,best_score,best_level);
+        if(selection == 1) {
+            // Utilisation de la fonction demander_niveau pour choisir le niveau
+            int niveau_choisi = demander_niveau(page, fond_menu);
 
-        rest(300);
+            // – initialisation jeu –
+            Vaisseau v = {50,240,5,32,32,VIES_INITIALES};
+            Projectile projectiles[MAX_PROJECTILES] = {{0}};
+            Ennemi    ennemis[MAX_ENNEMIS]         = {{0}};
+            int vies=VIES_INITIALES, score=0, level=niveau_choisi;
+            int screenx=0;
+            clock_t last_tir=0; const int tir_delay=500;
+            time_t debut = time(NULL);
+
+            // – boucle de jeu –
+            while(!key[KEY_ESC] && v.nb_vie>0
+                  && difftime(time(NULL),debut)<DUREE_NIVEAU)
+            {
+                screenx+=2;
+                if(screenx>fond->w-SCREEN_W) screenx=0;
+                clear_bitmap(page);
+                blit(fond,page,screenx,0,0,0,SCREEN_W,SCREEN_H);
+
+                int dx=0, dy=0;
+                if(key[KEY_UP])    dy=-v.vitesse;
+                if(key[KEY_DOWN])  dy= v.vitesse;
+                if(key[KEY_LEFT])  dx=-v.vitesse;
+                if(key[KEY_RIGHT]) dx= v.vitesse;
+                deplacer_vaisseau(&v,dx,dy);
+
+                if(key[KEY_SPACE] && clock()-last_tir>=tir_delay){
+                    for(int i=0;i<MAX_PROJECTILES;i++){
+                        if(!projectiles[i].actif){
+                            projectiles[i].x     = v.x + v.largeur + 25;
+                            projectiles[i].y     = v.y + v.hauteur+1/2;
+                            projectiles[i].actif = 1;
+                            last_tir = clock();
+                            break;
+                        }
+                    }
+                }
+
+                for(int i=0;i<MAX_PROJECTILES;i++)
+                    deplacer_projectile(&projectiles[i]);
+
+                if(rand()%30==0){
+                    for(int i=0;i<MAX_ENNEMIS;i++){
+                        if(!ennemis[i].actif){
+                            ennemis[i].actif=1;
+                            ennemis[i].x   = SCREEN_W;
+                            ennemis[i].y   = rand()%(SCREEN_H-HAUTEUR_ENNEMI);
+                            break;
+                        }
+                    }
+                }
+
+                for(int i=0;i<MAX_ENNEMIS;i++){
+                    deplacer_ennemi(&ennemis[i]);
+                    if(collision_vaisseau_ennemi(&v,&ennemis[i])){
+                        v.nb_vie--; ennemis[i].actif=0;
+                    }
+                    for(int j=0;j<MAX_PROJECTILES;j++){
+                        detecter_collision_projectile(
+                            &projectiles[j],
+                            &ennemis[i],
+                            &score
+                        );
+                    }
+                }
+
+                draw_sprite(page, vaisseau_img, v.x, v.y);
+                for(int i=0;i<MAX_PROJECTILES;i++){
+                    if(projectiles[i].actif)
+                        rectfill(page,
+                            projectiles[i].x, projectiles[i].y,
+                            projectiles[i].x+5,projectiles[i].y+5,
+                            makecol(255,0,0)
+                        );
+                }
+                for(int i=0;i<MAX_ENNEMIS;i++){
+                    if(ennemis[i].actif)
+                        draw_sprite(page,ennemi_img,
+                                    ennemis[i].x, ennemis[i].y);
+                }
+
+                textprintf_ex(page,font,10,10,makecol(255,255,255),-1,
+                              "Score: %d", score);
+                textprintf_ex(page,font,10,30,makecol(255,255,255),-1,
+                              "Vies : %d", v.nb_vie);
+                int rem = DUREE_NIVEAU - (int)difftime(time(NULL), debut);
+                if(rem<0) rem=0;
+                textprintf_ex(page,font,SCREEN_W-100,10,
+                              makecol(255,255,0),-1,
+                              "Temps: %ds", rem);
+                afficher_barre_de_vie(page, &v);
+
+                blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
+                rest(30);
+            }
+
+            if(score>best_score)    best_score=score;
+            if(level>best_level)    best_level=level;
+            ecrire_sauvegarde(pseudo,best_score,best_level);
+
+            rest(300);
+        }
+        else if(selection == 2) {
+            // Continuer partie (à implémenter selon ta logique)
+            // Par exemple lancer la partie au niveau best_level
+        }
     }
 
     return 0;
