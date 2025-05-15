@@ -13,5 +13,7 @@ add_executable(ProjetTypeS2 main.c
         deplacements.h
         sauvegarde.c
         sauvegarde.h
+        niveau.c
+        niveau.h
 )
 target_link_libraries(ProjetTypeS2 -lmingw32 -lalleg44)
