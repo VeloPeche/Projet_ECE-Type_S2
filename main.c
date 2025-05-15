@@ -11,13 +11,14 @@
 #include "sauvegarde.h"
 #include "niveau.h"
 #include "pause.h"
-
+#include "donnees.h"
 int main(){
     srand(time(NULL));
     allegro_init();
     install_keyboard();
     install_mouse();
     set_color_depth(32);
+
     if(set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0)){
         allegro_message("Erreur mode graphique");
         exit(EXIT_FAILURE);
@@ -30,6 +31,7 @@ int main(){
     BITMAP *vaisseau_img = charger_bitmap_sure("Vaisseau.bmp");
     BITMAP *ennemi_img   = charger_bitmap_sure("Fantome_rose.bmp");
     BITMAP *coeur_img    = charger_bitmap_sure("coeur_magenta.bmp");
+    BITMAP *sprite_obstacle = charger_bitmap_sure("etoile_ennemie.bmp");
 
     // --- Saisie du pseudo ---
     char pseudo[50] = "";
@@ -95,6 +97,21 @@ int main(){
             }
             rest(30);
         }
+        // Déclare obstacles et nombre_obstacles
+        Etoile_ennemie obstacles[30] = {{0}};  // 30 max pour être safe
+        int nombre_obstacles = 0;
+        int nb_etoiles_actives = 0;
+
+        int niveau_choisi = demander_niveau(page, fond_menu);
+        // Initialise obstacles selon le niveau
+        switch (niveau_choisi) {
+            case 1: nombre_obstacles = 15; break;
+            case 2: nombre_obstacles = 20; break;
+            case 3: nombre_obstacles = 25; break;
+            default: nombre_obstacles = 15; break;
+        }
+
+
 
         // Lancer une partie
         if (selection == 1) {
@@ -165,6 +182,7 @@ int main(){
                     }
                 }
 
+
                 // 6) Spawn de missiles ennemis
                 for (int i = 0; i < MAX_ENNEMIS; i++) {
                     if (ennemis[i].actif && rand()%200 == 0) {
@@ -190,6 +208,20 @@ int main(){
                         }
                     }
                 }
+
+                // Spawn progressif des étoiles (obstacles)
+                if (nb_etoiles_actives < nombre_obstacles && rand() % 60 == 0) {
+                    for (int i = 0; i < nombre_obstacles; i++) {
+                        if (!obstacles[i].actif) {
+                            obstacles[i].actif = 1;
+                            obstacles[i].x = SCREEN_W; // Commence à droite
+                            obstacles[i].y = rand() % (SCREEN_H - 32);
+                            nb_etoiles_actives++;
+                            break;
+                        }
+                    }
+                }
+
 
                 // 8) Mise à jour ennemis & collisions
                 for (int i = 0; i < MAX_ENNEMIS; i++) {
@@ -227,6 +259,24 @@ int main(){
                         }
                     }
                 }
+
+                // Déplacement et collision des obstacles
+                for (int i = 0; i < nombre_obstacles; i++) {
+                    if (obstacles[i].actif) {
+                        obstacles[i].x -= 2; // même vitesse que le fond
+                        if (obstacles[i].x < -32) {
+                            obstacles[i].actif = 0;
+                            nb_etoiles_actives--;
+                        }
+
+                        if (collision_vaisseau_obstacle(&v, &obstacles[i])) {
+                            v.nb_vie--;
+                            obstacles[i].actif = 0;
+                            nb_etoiles_actives--;
+                        }
+                    }
+                }
+
 
                 // 11) Affichage final
                 draw_sprite(page, vaisseau_img, v.x, v.y);
@@ -275,6 +325,7 @@ int main(){
                 afficher_barre_de_vie(page, &v);
                 textprintf_ex(page, font, 10,80, makecol(255,255,255), -1,
                               "Pause : P");
+                afficher_obstacles(page, sprite_obstacle, obstacles, nombre_obstacles);
 
                 blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
                 rest(30);
@@ -290,6 +341,8 @@ int main(){
         else if (selection == 2) {
         }
     }
+    destroy_bitmap(sprite_obstacle);
+
 
     return 0;
 }

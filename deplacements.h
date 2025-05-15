@@ -17,6 +17,6 @@ void deplacer_coeur(Coeur *c);
 void detecter_collision_projectile(Projectile *pr, Ennemi *en, int *score);
 int  collision_vaisseau_ennemi(const Vaisseau *v, const Ennemi *e);
 int collision_vaisseau_coeur(const Vaisseau *v, const Coeur *c);
-
-
+void initialiser_etoiles(Etoile_ennemie etoiles[], Etoile_ennemie obstacles[], int niveau);
+int collision_vaisseau_obstacle(Vaisseau* v, Etoile_ennemie* e);
 #endif // DEPLACEMENTS_H

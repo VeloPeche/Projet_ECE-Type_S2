@@ -53,3 +53,12 @@ void afficher_menu_principal(BITMAP *page, const char *pseudo, int sel,
     }
     blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
 }
+
+void afficher_obstacles(BITMAP *page, BITMAP *sprite_obstacle, Etoile_ennemie obstacles[], int nombre) {
+    for (int i = 0; i < nombre; i++) {
+        if (obstacles[i].actif) {
+            draw_sprite(page, sprite_obstacle, obstacles[i].x, obstacles[i].y);
+        }
+    }
+}
+
