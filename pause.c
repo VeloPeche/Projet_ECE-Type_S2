@@ -9,7 +9,7 @@
 //
 void gerer_pause(BITMAP *page) {
     textout_centre_ex(page, font,
-                      "JEU EN PAUSE - Appuyez sur 'P' pour reprendre",
+                      "Le jeu est en pause. Appuyez sur 'P' pour reprendre",
                       SCREEN_W/2, SCREEN_H/2,
                       makecol(255, 255, 0), -1);
     blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
