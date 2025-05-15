@@ -5,10 +5,10 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "unitaires.h"
-#include "deplacement.h"
+#include "utilitaires.h"
+#include "deplacements.h"
 #include "affichage.h"
-#include "sauvgarde.h"
+#include "sauvegarde.h"
 #include "niveau.h"
 
 int main(){
