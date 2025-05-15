@@ -16,10 +16,12 @@
 #define VIES_INITIALES 3
 
 #define DUREE_NIVEAU   30
+#define MAX_ETOILE 20
 
-typedef struct { int x, y, actif; } Projectile;
-typedef struct { int x, y, vitesse, largeur, hauteur, nb_vie; } Vaisseau;
-typedef struct { int x, y, actif; } Ennemi;
+typedef struct { int x,y,actif; } Projectile;
+typedef struct { int x,y,vitesse,largeur,hauteur,nb_vie; } Vaisseau;
+typedef struct { int x,y,actif; } Ennemi;
+typedef struct {int x,y,largeur,hauteur,actif;} Etoile_ennemie;
 typedef struct { int x, y, actif; } Coeur;
 
 
