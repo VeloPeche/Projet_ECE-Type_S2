@@ -46,3 +46,11 @@
 67	334	7690306710884768	CMakeFiles/ProjetTypeS2.dir/pause.c.obj	a80a354d5fedfd9b
 29	335	7690306710514762	CMakeFiles/ProjetTypeS2.dir/main.c.obj	a1e6f6d46b9293f4
 335	527	7690306713568283	ProjetTypeS2.exe	66f507a6705c27bf
+68	393	7690311304470543	CMakeFiles/ProjetTypeS2.dir/sauvegarde.c.obj	9d2a1d8ef189efe4
+59	403	7690311304380573	CMakeFiles/ProjetTypeS2.dir/deplacements.c.obj	ff2db164c9a8cf37
+43	453	7690311304220558	CMakeFiles/ProjetTypeS2.dir/utilitaires.c.obj	8e5ba5d12eab5ff6
+51	457	7690311304300563	CMakeFiles/ProjetTypeS2.dir/affichage.c.obj	2187cb6505af0bb0
+91	466	7690311304694857	CMakeFiles/ProjetTypeS2.dir/pause.c.obj	a80a354d5fedfd9b
+82	544	7690311304610564	CMakeFiles/ProjetTypeS2.dir/niveau.c.obj	d73ab6d56e449b65
+37	571	7690311304160549	CMakeFiles/ProjetTypeS2.dir/main.c.obj	a1e6f6d46b9293f4
+572	1019	7690311309510413	ProjetTypeS2.exe	66f507a6705c27bf
