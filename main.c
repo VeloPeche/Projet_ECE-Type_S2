@@ -239,7 +239,7 @@ int main() {
 
                 // 9) Mise à jour ennemis & collisions
                 for (int i = 0; i < MAX_ENNEMIS; i++) {
-                    deplacer_ennemi(&ennemis[i]);
+                    deplacer_ennemi(&ennemis[i], vitesse_ennemis);
                     if (collision_vaisseau_ennemi(&v, &ennemis[i])) {
                         v.nb_vie--;
                         ennemis[i].actif = 0;
