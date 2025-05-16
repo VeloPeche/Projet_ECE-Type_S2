@@ -182,40 +182,41 @@ int main() {
                 // 4) Mise à jour des projectiles joueurs
                 for (int i = 0; i < MAX_PROJECTILES; i++)
                     deplacer_projectile(&projectiles[i]);
-
                 static int compteur_spawn = 0;
-                static int index_spawn = 0;  // pour parcourir le tableau d'ennemis du niveau 1
-
-                compteur_spawn++;
+                static int index_spawn = 0;
 
                 if (niveau_choisi == 1) {
-                    // Toutes les 60 frames (~2 sec)
-                    if (compteur_spawn >= 60) {
-                        if (index_spawn < NOMBRE_ENNEMIS_NIVEAU1) {
-                            int apparition_courante = ennemis_niveau1[index_spawn].apparition;
 
-                            // tant qu'on est dans le tableau et que les ennemis ont la même apparition
-                            while (index_spawn < NOMBRE_ENNEMIS_NIVEAU1 &&
-                                   ennemis_niveau1[index_spawn].apparition == apparition_courante) {
+                    initialiser_niveau_1();
+                    // À chaque frame, on regarde si des ennemis doivent apparaître
+                    while (index_spawn < NOMBRE_ENNEMIS_NIVEAU1 &&
+                           ennemis_niveau1[index_spawn].apparition <= compteur_spawn) {
 
-                                // Cherche une place libre dans ennemis actifs
-                                for (int i = 0; i < MAX_ENNEMIS; i++) {
-                                    if (!ennemis[i].actif) {
-                                        ennemis[i].actif = 1;
-                                        ennemis[i].x = ennemis_niveau1[index_spawn].x;
-                                        ennemis[i].y = ennemis_niveau1[index_spawn].y;
-                                        ennemis[i].apparition = apparition_courante;
-                                        break;
-                                    }
-                                }
-
-                                index_spawn++;
-                                   }
+                        // Ajout fixe dans le tableau des ennemis
+                        if (index_spawn < MAX_ENNEMIS) {
+                            ennemis[index_spawn].actif = 1;
+                            ennemis[index_spawn].x = ennemis_niveau1[index_spawn].x;
+                            ennemis[index_spawn].y = ennemis_niveau1[index_spawn].y;
+                            ennemis[index_spawn].apparition = ennemis_niveau1[index_spawn].apparition;
                         }
-                        compteur_spawn = 0;
-                    }
 
-                } else {
+                        index_spawn++;
+
+                           }
+
+                    compteur_spawn++;  // Incrémente à chaque frame
+                    for (int i = 0; i < MAX_ENNEMIS; i++) {
+                        if (ennemis[i].actif) {
+                            ennemis[i].x -= 2;  // déplace vers la gauche
+
+                            if (ennemis[i].x < -LARGEUR_ENNEMI) {
+                                ennemis[i].actif = 0;  // désactive si hors écran
+                            }
+                        }
+                    }
+                }
+
+                 else {
                     // Spawn aléatoire pour niveaux 2 et 3
                     if (rand() % taux_spawn_ennemis == 0) {
                         for (int i = 0; i < MAX_ENNEMIS; i++) {
