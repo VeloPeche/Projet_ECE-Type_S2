@@ -195,15 +195,17 @@ int main() {
                     }
                 }
 
-                // 6) Spawn de missiles ennemis
-                for (int i = 0; i < MAX_ENNEMIS; i++) {
-                    if (ennemis[i].actif && rand()%200 == 0) {
-                        for (int m = 0; m < MAX_MISSILES; m++) {
-                            if (!missiles[m].actif) {
-                                missiles[m].actif = 1;
-                                missiles[m].x     = ennemis[i].x;
-                                missiles[m].y     = ennemis[i].y + HAUTEUR_ENNEMI/2;
-                                break;
+               // 6) Spawn de missiles ennemis (seulement niveaux 1 et 2)
+                if (niveau_choisi == 2 || niveau_choisi == 3) {
+                    for (int i = 0; i < MAX_ENNEMIS; i++) {
+                        if (ennemis[i].actif && rand()%200 == 0) {
+                            for (int m = 0; m < MAX_MISSILES; m++) {
+                                if (!missiles[m].actif) {
+                                    missiles[m].actif = 1;
+                                    missiles[m].x     = ennemis[i].x;
+                                    missiles[m].y     = ennemis[i].y + HAUTEUR_ENNEMI/2;
+                                    break;
+                                }
                             }
                         }
                     }
