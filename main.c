@@ -183,17 +183,52 @@ int main() {
                 for (int i = 0; i < MAX_PROJECTILES; i++)
                     deplacer_projectile(&projectiles[i]);
 
-                // 5) Spawn d’ennemis (fréquence selon niveau)
-                if (rand() % taux_spawn_ennemis == 0) {
-                    for (int i = 0; i < MAX_ENNEMIS; i++) {
-                        if (!ennemis[i].actif) {
-                            ennemis[i].actif = 1;
-                            ennemis[i].x     = SCREEN_W;
-                            ennemis[i].y     = rand() % (SCREEN_H - HAUTEUR_ENNEMI);
-                            break;
+                static int compteur_spawn = 0;
+                static int index_spawn = 0;  // pour parcourir le tableau d'ennemis du niveau 1
+
+                compteur_spawn++;
+
+                if (niveau_choisi == 1) {
+                    // Toutes les 60 frames (~2 sec)
+                    if (compteur_spawn >= 60) {
+                        if (index_spawn < NOMBRE_ENNEMIS_NIVEAU1) {
+                            int apparition_courante = ennemis_niveau1[index_spawn].apparition;
+
+                            // tant qu'on est dans le tableau et que les ennemis ont la même apparition
+                            while (index_spawn < NOMBRE_ENNEMIS_NIVEAU1 &&
+                                   ennemis_niveau1[index_spawn].apparition == apparition_courante) {
+
+                                // Cherche une place libre dans ennemis actifs
+                                for (int i = 0; i < MAX_ENNEMIS; i++) {
+                                    if (!ennemis[i].actif) {
+                                        ennemis[i].actif = 1;
+                                        ennemis[i].x = ennemis_niveau1[index_spawn].x;
+                                        ennemis[i].y = ennemis_niveau1[index_spawn].y;
+                                        ennemis[i].apparition = apparition_courante;
+                                        break;
+                                    }
+                                }
+
+                                index_spawn++;
+                                   }
+                        }
+                        compteur_spawn = 0;
+                    }
+
+                } else {
+                    // Spawn aléatoire pour niveaux 2 et 3
+                    if (rand() % taux_spawn_ennemis == 0) {
+                        for (int i = 0; i < MAX_ENNEMIS; i++) {
+                            if (!ennemis[i].actif) {
+                                ennemis[i].actif = 1;
+                                ennemis[i].x     = SCREEN_W;
+                                ennemis[i].y     = rand() % (SCREEN_H - HAUTEUR_ENNEMI);
+                                break;
+                            }
                         }
                     }
                 }
+
 
                // 6) Spawn de missiles ennemis (seulement niveaux 1 et 2)
                 if (niveau_choisi == 2 || niveau_choisi == 3) {

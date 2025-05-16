@@ -8,6 +8,177 @@
 #define MARGE_BAS 12
 #define MARGE_DROITE 30
 
+Ennemi ennemis_niveau1[100] = {
+    // Groupe 1, apparition = 0
+    {640, 10,   0, 0},
+    {645, 50,   0, 0},
+    {650, 90,   0, 0},
+
+    // Groupe 2, apparition = 54
+    {655, 130,  54, 0},
+    {660, 170,  54, 0},
+    {665, 210,  54, 0},
+
+    // Groupe 3, apparition = 90
+    {670, 250,  90, 0},
+    {675, 290,  90, 0},
+    {680, 330,  90, 0},
+
+    // Groupe 4, apparition = 162
+    {685, 370, 162, 0},
+    {690, 410, 162, 0},
+    {695, 450, 162, 0},
+
+    // Groupe 5, apparition = 216
+    {640, 20,  216, 0},
+    {645, 60,  216, 0},
+    {650, 100, 216, 0},
+
+    // Groupe 6, apparition = 270
+    {655, 140, 270, 0},
+    {660, 180, 270, 0},
+    {665, 220, 270, 0},
+
+    // Groupe 7, apparition = 324
+    {670, 260, 324, 0},
+    {675, 300, 324, 0},
+    {680, 340, 324, 0},
+
+    // Groupe 8, apparition = 378
+    {685, 380, 378, 0},
+    {690, 420, 378, 0},
+    {695, 460, 378, 0},
+
+    // Groupe 9, apparition = 432
+    {640, 30,  432, 0},
+    {645, 70,  432, 0},
+    {650, 110, 432, 0},
+
+    // Groupe 10, apparition = 486
+    {655, 150, 486, 0},
+    {660, 190, 486, 0},
+    {665, 230, 486, 0},
+
+    // Groupe 11, apparition = 540
+    {670, 270, 540, 0},
+    {675, 310, 540, 0},
+    {680, 350, 540, 0},
+
+    // Groupe 12, apparition = 594
+    {685, 390, 594, 0},
+    {690, 430, 594, 0},
+    {695, 470, 594, 0},
+
+    // Groupe 13, apparition = 648
+    {640, 40,  648, 0},
+    {645, 80,  648, 0},
+    {650, 120, 648, 0},
+
+    // Groupe 14, apparition = 702
+    {655, 160, 702, 0},
+    {660, 200, 702, 0},
+    {665, 240, 702, 0},
+
+    // Groupe 15, apparition = 756
+    {670, 280, 756, 0},
+    {675, 320, 756, 0},
+    {680, 360, 756, 0},
+
+    // Groupe 16, apparition = 810
+    {685, 400, 810, 0},
+    {690, 440, 810, 0},
+    {695, 480, 810, 0},
+
+    // Groupe 17, apparition = 864
+    {640, 15,  864, 0},
+    {645, 55,  864, 0},
+    {650, 95,  864, 0},
+
+    // Groupe 18, apparition = 918
+    {655, 135, 918, 0},
+    {660, 175, 918, 0},
+    {665, 215, 918, 0},
+
+    // Groupe 19, apparition = 972
+    {670, 255, 972, 0},
+    {675, 295, 972, 0},
+    {680, 335, 972, 0},
+
+    // Groupe 20, apparition = 1026
+    {685, 375, 1026, 0},
+    {690, 415, 1026, 0},
+    {695, 455, 1026, 0},
+
+    // Groupe 21, apparition = 1080
+    {640, 25, 1080, 0},
+    {645, 65, 1080, 0},
+    {650, 105,1080, 0},
+
+    // Groupe 22, apparition = 1134
+    {655, 145,1134, 0},
+    {660, 185,1134, 0},
+    {665, 225,1134, 0},
+
+    // Groupe 23, apparition = 1188
+    {670, 265,1188, 0},
+    {675, 305,1188, 0},
+    {680, 345,1188, 0},
+
+    // Groupe 24, apparition = 1242
+    {685, 385,1242, 0},
+    {690, 425,1242, 0},
+    {695, 465,1242, 0},
+
+    // Groupe 25, apparition = 1296
+    {640, 35, 1296, 0},
+    {645, 75, 1296, 0},
+    {650, 115,1296, 0},
+
+    // Groupe 26, apparition = 1350
+    {655, 155,1350, 0},
+    {660, 195,1350, 0},
+    {665, 235,1350, 0},
+
+    // Groupe 27, apparition = 1404
+    {670, 275,1404, 0},
+    {675, 315,1404, 0},
+    {680, 355,1404, 0},
+
+    // Groupe 28, apparition = 1458
+    {685, 395,1458, 0},
+    {690, 435,1458, 0},
+    {695, 475,1458, 0},
+
+    // Groupe 29, apparition = 1512
+    {640, 45, 1512, 0},
+    {645, 85, 1512, 0},
+    {650, 125,1512, 0},
+
+    // Groupe 30, apparition = 1566
+    {655, 165,1566, 0},
+    {660, 205,1566, 0},
+    {665, 245,1566, 0},
+
+    // Groupe 31, apparition = 1620
+    {670, 285,1620, 0},
+    {675, 325,1620, 0},
+    {680, 365,1620, 0},
+
+    // Groupe 32, apparition = 1674
+    {685, 405,1674, 0},
+    {690, 445,1674, 0},
+    {695, 485,1674, 0},
+
+    // Groupe 33, apparition = 1728
+    {640, 5,  1728, 0},
+    {645, 45, 1728, 0},
+    {650, 85, 1728, 0},
+
+    // Groupe 34, apparition = 1782
+    {655, 125,1782, 0}
+};
+
+
 int detecter_collision_missile_projectile(Missile *m, Projectile *p) {
     if (!m->actif || !p->actif) return 0;
     // On considère le missile comme un carré de 2*R x 2*R centré sur (x,y)
@@ -203,4 +374,25 @@ int collision_vaisseau_obstacle(Vaisseau* v, Etoile_ennemie* e) {
            v->y < e->y + 32 &&
            v->y + v->hauteur > e->y;
 }
+
+void init_ennemis_niveau1() {
+    for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
+        ennemis_niveau1[i].actif = 0;
+    }
+}
+
+void mise_a_jour_ennemis_niveau1(int tick_actuel, int vitesse) {
+    for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
+        if (!ennemis_niveau1[i].actif && tick_actuel >= ennemis_niveau1[i].apparition) {
+            ennemis_niveau1[i].actif = 1;
+        }
+        if (ennemis_niveau1[i].actif) {
+            ennemis_niveau1[i].x -= vitesse;
+            if (ennemis_niveau1[i].x < -LARGEUR_ENNEMI) {
+                ennemis_niveau1[i].actif = 0;
+            }
+        }
+    }
+}
+
 

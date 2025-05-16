@@ -5,7 +5,10 @@
 #define MAX_MISSILES    10
 // vitesse des missiles (un peu plus rapide que les ennemis)
 #define VITESSE_MISSILE (VITESSE_ENNEMI + 2)
+extern Ennemi ennemis_niveau1[NOMBRE_ENNEMIS_NIVEAU1];
 
+void init_ennemis_niveau1(void);
+void mise_a_jour_ennemis_niveau1(int tick_actuel, int vitesse);
 typedef struct { int x,y,actif; } Missile;
 
 void deplacer_missile(Missile *m);
