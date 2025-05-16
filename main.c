@@ -171,7 +171,7 @@ int main() {
                     for (int i = 0; i < MAX_PROJECTILES; i++) {
                         if (!projectiles[i].actif) {
                             projectiles[i].x     = v.x + v.largeur + 25;
-                            projectiles[i].y     = v.y + v.hauteur/2;
+                            projectiles[i].y     = v.y + v.hauteur+1/2;
                             projectiles[i].actif = 1;
                             last_tir = clock();
                             break;
