@@ -52,10 +52,11 @@ void deplacer_projectile(Projectile *p){
     }
 }
 
-void deplacer_ennemi(Ennemi *e){
-    if(e->actif){
-        e->x-=VITESSE_ENNEMI;
-        if(e->x< -LARGEUR_ENNEMI) e->actif=0;
+void deplacer_ennemi(Ennemi *e, int vitesse) {
+    if (e->actif) {
+        e->x -= vitesse;
+        if (e->x < -LARGEUR_ENNEMI)
+            e->actif = 0;
     }
 }
 
