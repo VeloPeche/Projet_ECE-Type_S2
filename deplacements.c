@@ -5,6 +5,9 @@
 // … vos autres includes …
 // ... vos fonctions existantes ...
 
+#define MARGE_BAS 12
+#define MARGE_DROITE 30
+
 int detecter_collision_missile_projectile(Missile *m, Projectile *p) {
     if (!m->actif || !p->actif) return 0;
     // On considère le missile comme un carré de 2*R x 2*R centré sur (x,y)
@@ -37,13 +40,30 @@ void detecter_collision_missile_vers_vaisseau(Missile *m, Vaisseau *v){
     }
 }
 
-void deplacer_vaisseau(Vaisseau *v,int dx,int dy){
-    v->x+=dx; v->y+=dy;
-    if(v->x<0) v->x=0;
-    if(v->x>SCREEN_W-v->largeur) v->x=SCREEN_W-v->largeur;
-    if(v->y<0) v->y=0;
-    if(v->y>SCREEN_H-v->hauteur) v->y=SCREEN_H-v->hauteur;
+
+void deplacer_vaisseau(Vaisseau *v, int dx, int dy) {
+    v->x += dx;
+    v->y += dy;
+
+    // Limite gauche
+    if (v->x < 0)
+        v->x = 0;
+    // Limite droite
+    if (v->x > SCREEN_W - v->largeur - MARGE_DROITE)
+        v->x = SCREEN_W - v->largeur - MARGE_DROITE;
+
+    // Limite haut
+    if (v->y < 0)
+        v->y = 0;
+    // Limite bas avec marge
+    if (v->y > SCREEN_H - v->hauteur - MARGE_BAS)
+        v->y = SCREEN_H - v->hauteur - MARGE_BAS;
 }
+
+
+
+
+
 
 void deplacer_projectile(Projectile *p){
     if(p->actif){
