@@ -1,9 +1,0 @@
-Tim 2500 3
-Vic 0 1
-tim 0 1
-Jean 1300 1
-Alice 2300 1
-a 0 1
-yy 0 1
-Alal 0 1
-Alex 1800 1

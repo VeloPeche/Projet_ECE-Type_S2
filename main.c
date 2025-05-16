@@ -244,6 +244,13 @@ int main(){
                     deplacer_missile(&missiles[m]);
                     detecter_collision_missile_vers_vaisseau(&missiles[m], &v);
                 }
+                // 9bis) Collision missiles ennemis vs tirs joueurs
+                for (int m = 0; m < MAX_MISSILES; m++) {
+                    for (int i = 0; i < MAX_PROJECTILES; i++) {
+                        // si collision, les deux disparaissent
+                        detecter_collision_missile_projectile(&missiles[m], &projectiles[i]);
+                    }
+                }
 
                 // 10) Mise à jour cœurs & collision bonus
                 for (int c = 0; c < MAX_COEURS; c++) {
@@ -294,7 +301,7 @@ int main(){
                     if (missiles[m].actif)
                         circlefill(page,
                             missiles[m].x, missiles[m].y,
-                            3, makecol(0,255,255)
+                            8, makecol(0,255,255)
                         );
                 }
                 // ennemis

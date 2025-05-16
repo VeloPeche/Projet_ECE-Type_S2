@@ -3,6 +3,22 @@
 #include "deplacements.h"
 
 // … vos autres includes …
+// ... vos fonctions existantes ...
+
+int detecter_collision_missile_projectile(Missile *m, Projectile *p) {
+    if (!m->actif || !p->actif) return 0;
+    // On considère le missile comme un carré de 2*R x 2*R centré sur (x,y)
+    const int R = 6;              // même rayon que pour le rendu
+    const int PW = 5, PH = 5;     // taille du projectile joueur
+    if (p->x < m->x + R && p->x + PW > m->x - R &&
+        p->y < m->y + R && p->y + PH > m->y - R)
+    {
+        m->actif = 0;
+        p->actif = 0;
+        return 1;
+    }
+    return 0;
+}
 
 void deplacer_missile(Missile *m){
     if(!m->actif) return;
