@@ -15,7 +15,7 @@
 
 #define VIES_INITIALES 3
 
-#define DUREE_NIVEAU   30
+#define DUREE_NIVEAU   60
 
 #define MAX_ETOILES_NIVEAU_1 15
 #define MAX_ETOILES_NIVEAU_2 22
