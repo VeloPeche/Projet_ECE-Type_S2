@@ -3,7 +3,6 @@
 
 #define MAX_PROJECTILES 10
 
-#define MAX_ENNEMIS    20
 #define LARGEUR_ENNEMI 80
 #define HAUTEUR_ENNEMI 74
 #define VITESSE_ENNEMI 5

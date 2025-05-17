@@ -135,7 +135,7 @@ int main() {
             // Initialisation des entités
             Vaisseau  v          = {50,240,5,32,32,VIES_INITIALES};
             Projectile projectiles[MAX_PROJECTILES] = {{0}};
-            Ennemi    ennemis[MAX_ENNEMIS]          = {{0}};
+            Ennemi    ennemis[NOMBRE_ENNEMIS_NIVEAU1]          = {{0}};
             Missile   missiles[MAX_MISSILES]        = {{0}};
             Coeur     coeurs[MAX_COEURS]            = {{0}};
 
@@ -193,7 +193,7 @@ int main() {
                            ennemis_niveau1[index_spawn].apparition <= compteur_spawn) {
 
                         // Ajout fixe dans le tableau des ennemis
-                        if (index_spawn < MAX_ENNEMIS) {
+                        if (index_spawn < NOMBRE_ENNEMIS_NIVEAU1) {
                             ennemis[index_spawn].actif = 1;
                             ennemis[index_spawn].x = ennemis_niveau1[index_spawn].x;
                             ennemis[index_spawn].y = ennemis_niveau1[index_spawn].y;
@@ -205,7 +205,7 @@ int main() {
                            }
 
                     compteur_spawn++;  // Incrémente à chaque frame
-                    for (int i = 0; i < MAX_ENNEMIS; i++) {
+                    for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
                         if (ennemis[i].actif) {
                             ennemis[i].x -= 2;  // déplace vers la gauche
 
@@ -219,7 +219,7 @@ int main() {
                  else {
                     // Spawn aléatoire pour niveaux 2 et 3
                     if (rand() % taux_spawn_ennemis == 0) {
-                        for (int i = 0; i < MAX_ENNEMIS; i++) {
+                        for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
                             if (!ennemis[i].actif) {
                                 ennemis[i].actif = 1;
                                 ennemis[i].x     = SCREEN_W;
@@ -233,7 +233,7 @@ int main() {
 
                // 6) Spawn de missiles ennemis (seulement niveaux 1 et 2)
                 if (niveau_choisi == 2 || niveau_choisi == 3) {
-                    for (int i = 0; i < MAX_ENNEMIS; i++) {
+                    for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
                         if (ennemis[i].actif && rand()%200 == 0) {
                             for (int m = 0; m < MAX_MISSILES; m++) {
                                 if (!missiles[m].actif) {
@@ -276,7 +276,7 @@ int main() {
                 }
 
                 // 9) Mise à jour ennemis & collisions
-                for (int i = 0; i < MAX_ENNEMIS; i++) {
+                for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
                     deplacer_ennemi(&ennemis[i], vitesse_ennemi);
                     if (collision_vaisseau_ennemi(&v, &ennemis[i])) {
                         v.nb_vie--;
@@ -355,7 +355,7 @@ int main() {
                         );
                 }
                 // ennemis
-                for (int i = 0; i < MAX_ENNEMIS; i++) {
+                for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
                     if (ennemis[i].actif)
                         draw_sprite(page, ennemi_img,
                                     ennemis[i].x, ennemis[i].y);
