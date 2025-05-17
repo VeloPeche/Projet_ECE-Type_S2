@@ -383,6 +383,8 @@ int main() {
                 textprintf_ex(page, font, 10,80, makecol(255,255,255), -1,
                               "Pause : P");
                 afficher_obstacles(page, sprite_obstacle, obstacles, nombre_obstacles);
+                textprintf_ex(page, font, SCREEN_W/2,10, makecol(255,255,255), -1,
+                              "Niveau : %d", niveau_choisi);
 
                 blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
                 rest(30);
@@ -400,6 +402,5 @@ int main() {
     }
 
     destroy_bitmap(sprite_obstacle);
-    return 0;
 }
 END_OF_MAIN();
