@@ -24,5 +24,6 @@ void initialiser_etoiles(Etoile_ennemie etoiles[], Etoile_ennemie obstacles[], i
 int collision_vaisseau_obstacle(Vaisseau* v, Etoile_ennemie* e);
 // Retourne 1 si collision, 0 sinon. Désactive les deux si collision.
 int detecter_collision_missile_projectile(Missile *m, Projectile *p);
-
+int collision_vaisseau_drapeau(const Vaisseau* v, const Drapeau* d);
+void init_drapeau_niveau1();
 #endif // DEPLACEMENTS_H

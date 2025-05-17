@@ -62,3 +62,8 @@ void afficher_obstacles(BITMAP *page, BITMAP *sprite_obstacle, Etoile_ennemie ob
     }
 }
 
+void afficher_drapeau(BITMAP *page, Drapeau *drapeau, BITMAP *sprite_drapeau) {
+    if (drapeau->actif) {
+        rectfill(page, drapeau->x, drapeau->y, drapeau->x + 20, drapeau->y + 30, makecol(255, 0, 0));
+    }
+}

@@ -15,7 +15,7 @@
 #define VIES_INITIALES 3
 
 #define DUREE_NIVEAU   60
-#define NOMBRE_ENNEMIS_NIVEAU1 150
+#define NOMBRE_ENNEMIS_NIVEAU1 66
 
 
 #define MAX_ETOILES_NIVEAU_1 15
@@ -27,6 +27,7 @@ typedef struct { int x, y, vitesse, largeur, hauteur, nb_vie; } Vaisseau;
 typedef struct { int x,y,apparition,actif; } Ennemi;
 typedef struct { int x, y, actif; } Coeur;
 typedef struct {int x,y,actif; } Etoile_ennemie;
+typedef struct { int x, y,largeur, hauteur,actif;} Drapeau;
 
 #endif // DONNEES_H
 

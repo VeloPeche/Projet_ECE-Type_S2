@@ -19,6 +19,9 @@ int main() {
     install_keyboard();
     install_mouse();
     set_color_depth(32);
+    Drapeau drapeau_niveau1;
+
+
 
     if(set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0)) {
         allegro_message("Erreur mode graphique");
@@ -165,6 +168,13 @@ int main() {
                     gerer_pause(page);
                 }
                 deplacer_vaisseau(&v, dx, dy);
+                if (collision_vaisseau_drapeau(&v, &drapeau_niveau1)) {
+                    niveau_choisi = 2;  // ou une variable globale selon ta gestion
+                    drapeau_niveau1.actif = 0;
+                    // repositionner le vaisseau si besoin
+                    v.x = 50;
+                    v.y = 240;
+                }
 
                 // 3) Tir joueur
                 if (key[KEY_SPACE] && clock() - last_tir >= tir_delay) {
