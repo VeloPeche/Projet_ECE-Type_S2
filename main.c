@@ -41,6 +41,8 @@ int main() {
     BITMAP *ennemi_img      = charger_bitmap_sure("Fantome_rouge.bmp");
     BITMAP *coeur_img       = charger_bitmap_sure("coeur_magenta.bmp");
     BITMAP *sprite_obstacle = charger_bitmap_sure("etoile_ennemie.bmp");
+    BITMAP *bouclier_img    = charger_bitmap_sure("bouclier.bmp");
+
 
     /* --- Saisie du pseudo --- */
     char pseudo[50] = "";
@@ -233,6 +235,8 @@ int main() {
         Missile missiles[MAX_MISSILES]          = {{0}};
         Coeur coeurs[MAX_COEURS]                = {{0}};
         Etoile_ennemie obstacles[30]            = {{0}};
+        Bouclier boucliers[MAX_BOUCLIERS]       = {{0}};
+
         int nbObs = 0, score = 0;
 
         clock_t last_tir      = 0;
@@ -329,7 +333,7 @@ int main() {
                     if (fantomes[i].x < -LARGEUR_ENNEMI)
                         fantomes[i].actif = 0;
                 }
-                if (collision_vaisseau_ennemi(&v, &fantomes[i])) {
+                if (v.bouclier == 0 && collision_vaisseau_ennemi(&v, &fantomes[i])) {
                     v.nb_vie--;
                     fantomes[i].actif = 0;
                 }
@@ -345,7 +349,7 @@ int main() {
                     ennemisSpeciaux[i].x -= vitE;
                     if (ennemisSpeciaux[i].x < -LARGEUR_ENNEMI)
                         ennemisSpeciaux[i].actif = 0;
-                    if (collision_vaisseau_ennemi(&v, &ennemisSpeciaux[i])) {
+                    if (v.bouclier == 0 && collision_vaisseau_ennemi(&v, &ennemisSpeciaux[i])) {
                         v.nb_vie--;
                         ennemisSpeciaux[i].actif = 0;
                     }
@@ -381,7 +385,7 @@ int main() {
             }
 
             // 10) Spawn & MAJ cœurs
-            if (rand() % 200 == 0) {
+            if (rand() % 300 == 0) {
                 for (int c = 0; c < MAX_COEURS; c++) {
                     if (!coeurs[c].actif) {
                         coeurs[c].actif = 1;
@@ -404,6 +408,37 @@ int main() {
                 }
             }
 
+            // 10bis) Spawn & MAJ boucliers
+            if (rand() % 300 == 0) {  // Un peu plus rare que les cœurs
+                for (int b = 0; b < MAX_BOUCLIERS; b++) {
+                    if (!boucliers[b].actif) {
+                        boucliers[b].actif = 1;
+                        boucliers[b].x     = SCREEN_W;
+                        boucliers[b].y     = rand() % (SCREEN_H - 32);
+                        break;
+                    }
+                }
+            }
+            for (int b = 0; b < MAX_BOUCLIERS; b++) {
+                if (boucliers[b].actif) {
+                    boucliers[b].x -= VITESSE_BOUCLIER;  // Même vitesse que les cœurs
+                    if (boucliers[b].x < -32) {
+                        boucliers[b].actif = 0;
+                    }
+                    else if (collision_vaisseau_bouclier(&v, &boucliers[b])) {
+                        boucliers[b].actif = 0;
+                        v.nb_vie = 3;
+                        v.bouclier = 1;
+                        v.bouclierdebut = time(NULL);
+
+                    }
+                }
+                if (v.bouclier && difftime(time(NULL), v.bouclierdebut) >= DUREE_BOUCLIER) {
+                    v.bouclier = 0;  // bouclier désactivé après durée écoulée
+                }
+
+            }
+
             // 11) MAJ obstacles & collisions
             for (int i = 0; i < 30; i++) {
                 if (obstacles[i].actif) {
@@ -412,7 +447,7 @@ int main() {
                         obstacles[i].actif = 0;
                         nbObs--;
                     }
-                    if (collision_vaisseau_obstacle(&v, &obstacles[i])) {
+                    if (v.bouclier == 0 && collision_vaisseau_obstacle(&v, &obstacles[i])) {
                         v.nb_vie--;
                         obstacles[i].actif = 0;
                         nbObs--;
@@ -449,6 +484,12 @@ int main() {
                                    coeurs[c].x, coeurs[c].y,
                                    coeur_img->w/5, coeur_img->h/5);
             }
+            for (int b = 0; b < MAX_BOUCLIERS; b++) {
+                if (boucliers[b].actif)
+                    stretch_sprite(page, bouclier_img,
+                                   boucliers[b].x, boucliers[b].y,
+                                   bouclier_img->w/20, bouclier_img->h/20);
+            }
             for (int i = 0; i < 30; i++) {
                 if (obstacles[i].actif)
                     draw_sprite(page, sprite_obstacle,
@@ -463,10 +504,49 @@ int main() {
                           makecol(255,255,0), -1,
                           "Temps: %ds", DUREE_NIVEAU - t);
             afficher_barre_de_vie(page, &v);
-            textprintf_ex(page, font, 10,80, makecol(255,255,255), -1,
-                          "Pause: P");
-            textprintf_ex(page, font, SCREEN_W/2,10, makecol(255,255,255), -1,
+            textprintf_centre_ex(page, font, SCREEN_W/2,10, makecol(255,255,255), -1,
                           "Niveau %d", niveau);
+            textprintf_ex(page, font, SCREEN_W-100,30, makecol(255,255,255), -1,
+                          "Pause: P");
+
+            if (v.bouclier) {
+                for (int i = 0; i < 3; i++) {
+                    circle(page, v.x + v.largeur, v.y + v.hauteur,
+                           v.largeur+i, makecol(0,255,255));
+                }
+            }
+            if (v.bouclier) {
+                int temps_restant = DUREE_BOUCLIER - (int)difftime(time(NULL), v.bouclierdebut);
+                textprintf_ex(page, font, 10, 50, makecol(0,255,255), -1,
+                              "Bouclier: %ds", temps_restant > 0 ? temps_restant : 0);
+            }
+
+            if (v.bouclier) {
+                int temps_ecoule   = (int)difftime(time(NULL), v.bouclierdebut);
+                int temps_restant  = DUREE_BOUCLIER - temps_ecoule;
+                if (temps_restant < 0) temps_restant = 0;
+
+                int largeur_max = 100;
+                int largeur_actuelle = (temps_restant * largeur_max) / DUREE_BOUCLIER;
+
+                int x_barre = 10, y_barre = 80;
+                int h_barre = 10;
+
+                textprintf_ex(page, font, 10,70, makecol(255,255,255), -1,
+                          "Bouclier activé");
+
+                // Fond de la barre
+                rectfill(page, x_barre, y_barre, x_barre + largeur_max, y_barre + h_barre,
+                         makecol(100, 100, 100));
+
+                // Remplissage dynamique
+                rectfill(page, x_barre, y_barre, x_barre + largeur_actuelle, y_barre + h_barre,
+                         makecol(0, 255, 255));  // Cyan = couleur du bouclier
+
+                // Bordure
+                rect(page, x_barre, y_barre, x_barre + largeur_max, y_barre + h_barre,
+                     makecol(255, 255, 255));
+            }
 
             blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
             rest(30);
