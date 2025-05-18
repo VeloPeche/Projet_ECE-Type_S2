@@ -107,7 +107,7 @@ void deplacer_missile(Missile *m){
 void detecter_collision_missile_vers_vaisseau(Missile *m, Vaisseau *v){
     if(!m->actif) return;
     // AABB missile 1×1 (ou taille que vous voulez) vs vaisseau
-    if(v.bouclier == 0 && v->x < m->x && v->x + v->largeur > m->x &&
+    if(v->bouclier == 0 && v->x < m->x && v->x + v->largeur > m->x &&
         v->y < m->y && v->y + v->hauteur > m->y )
     {
         m->actif = 0;
