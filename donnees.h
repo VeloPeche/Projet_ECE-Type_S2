@@ -7,7 +7,7 @@
 #define HAUTEUR_ENNEMI 74
 #define VITESSE_ENNEMI 5
 // dans donnees.h
-#define MAX_ENNEMIS 20
+#define MAX_ENNEMIS 100
 
 #define MAX_COEURS   5
 #define LARGEUR_COEUR 80
