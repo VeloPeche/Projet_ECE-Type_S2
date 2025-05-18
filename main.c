@@ -517,7 +517,7 @@ int main() {
             }
             if (v.bouclier) {
                 int temps_restant = DUREE_BOUCLIER - (int)difftime(time(NULL), v.bouclierdebut);
-                textprintf_ex(page, font, 10, 50, makecol(0,255,255), -1,
+                textprintf_ex(page, font, 10, 70, makecol(0,255,255), -1,
                               "Bouclier: %ds", temps_restant > 0 ? temps_restant : 0);
             }
 
@@ -531,9 +531,6 @@ int main() {
 
                 int x_barre = 10, y_barre = 80;
                 int h_barre = 10;
-
-                textprintf_ex(page, font, 10,70, makecol(255,255,255), -1,
-                          "Bouclier activé");
 
                 // Fond de la barre
                 rectfill(page, x_barre, y_barre, x_barre + largeur_max, y_barre + h_barre,
