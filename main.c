@@ -465,6 +465,8 @@ int main() {
             afficher_barre_de_vie(page, &v);
             textprintf_ex(page, font, 10,80, makecol(255,255,255), -1,
                           "Pause: P");
+            textprintf_ex(page, font, SCREEN_W/2,10, makecol(255,255,255), -1,
+                          "Niveau %d", niveau);
 
             blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
             rest(30);
