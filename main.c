@@ -66,14 +66,14 @@ int main() {
     clear_keybuf();
     rest(500);
 
-    /* --- Chargement de la sauvegarde --- */
+    /*Chargement de la sauvegarde */
     int best_score = -1, best_level = -1;
     lire_sauvegarde(pseudo, &best_score, &best_level);
 
-    /* --- Boucle principale menu → jeu → menu --- */
+    /* Boucle principale menu → jeu → menu */
     while (1) {
         int selection = 1;
-        /* --- Affichage du menu --- */
+        /*Affichage du menu */
         while (1) {
             afficher_menu_principal(page, pseudo, selection,
                                     fond_menu, best_score, best_level);
@@ -104,10 +104,10 @@ int main() {
             rest(30);
         }
 
-        /* --- Choix du niveau --- */
+        /*Choix du niveau*/
         int niveau = demander_niveau(page, fond_menu);
 
-        /* --- Définition des patterns selon le niveau --- */
+        /* Définition des patterns selon le niveau*/
         static SpawnEvent patternF1[66] = {
             {0, 10},{0, 400},{0, 200},{3, 300},
             {3, 300},{3, 200},{4, 370},
