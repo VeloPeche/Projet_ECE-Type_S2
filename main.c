@@ -37,7 +37,7 @@ int main() {
     BITMAP *fond            = charger_bitmap_sure("Fond1600x600.bmp");
     BITMAP *vaisseau_img    = charger_bitmap_sure("Vaisseau.bmp");
     BITMAP *fantome_img     = charger_bitmap_sure("Fantome_rose.bmp");
-    BITMAP *ennemi_img      = charger_bitmap_sure("opps.bmp");
+    BITMAP *ennemi_img      = charger_bitmap_sure("Fantome_rouge.bmp");
     BITMAP *coeur_img       = charger_bitmap_sure("coeur_magenta.bmp");
     BITMAP *sprite_obstacle = charger_bitmap_sure("etoile_ennemie.bmp");
 
