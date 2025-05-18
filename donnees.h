@@ -24,12 +24,27 @@
 #define MAX_ETOILES_NIVEAU_2 22
 #define MAX_ETOILES_NIVEAU_3 25
 
+#define MAX_BOUCLIERS 5
+#define DUREE_BOUCLIER 10
+#define LARGEUR_BOUCLIER 80
+#define HAUTEUR_BOUCLIER 74
+#define VITESSE_BOUCLIER 5
+#include <time.h>
+
 typedef struct { int x, y, actif; } Projectile;
-typedef struct { int x, y, vitesse, largeur, hauteur, nb_vie; } Vaisseau;
+typedef struct {
+    int x, y;
+    int vitesse;
+    int largeur, hauteur;
+    int nb_vie;
+    int bouclier;
+    time_t bouclierdebut;
+} Vaisseau;
 typedef struct { int x,y,apparition,actif; } Ennemi;
 typedef struct { int x, y, actif; } Coeur;
 typedef struct {int x,y,actif; } Etoile_ennemie;
 typedef struct { int x, y,largeur, hauteur,actif;} Drapeau;
+typedef struct { int x, y,actif;} Bouclier;
 
 #endif // DONNEES_H
 

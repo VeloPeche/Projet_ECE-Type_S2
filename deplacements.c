@@ -107,7 +107,7 @@ void deplacer_missile(Missile *m){
 void detecter_collision_missile_vers_vaisseau(Missile *m, Vaisseau *v){
     if(!m->actif) return;
     // AABB missile 1×1 (ou taille que vous voulez) vs vaisseau
-    if( v->x < m->x && v->x + v->largeur > m->x &&
+    if(v->bouclier == 0 && v->x < m->x && v->x + v->largeur > m->x &&
         v->y < m->y && v->y + v->hauteur > m->y )
     {
         m->actif = 0;
@@ -164,6 +164,13 @@ void deplacer_coeur(Coeur *c){
     }
 }
 
+void deplacer_bouclier(Bouclier *b){
+    if(b->actif){
+        b->x-=VITESSE_BOUCLIER;
+        if(b->x< -LARGEUR_BOUCLIER) b->actif=0;
+    }
+}
+
 void detecter_collision_projectile(Projectile *pr, Ennemi *en, int *score){
     if(pr->actif && en->actif &&
        pr->x>=en->x && pr->x<=en->x+LARGEUR_ENNEMI &&
@@ -183,6 +190,12 @@ int collision_vaisseau_coeur(const Vaisseau *v, const Coeur *c){
     return c->actif &&
            v->x<c->x+LARGEUR_COEUR && v->x+v->largeur>c->x &&
            v->y<c->y+HAUTEUR_COEUR && v->y+v->hauteur>c->y;
+}
+
+int collision_vaisseau_bouclier(const Vaisseau *v, const Bouclier *b){
+    return b->actif &&
+           v->x<b->x+LARGEUR_COEUR && v->x+v->largeur>b->x &&
+           v->y<b->y+HAUTEUR_COEUR && v->y+v->hauteur>b->y;
 }
 
 void initialiser_etoiles(Etoile_ennemie etoiles[], Etoile_ennemie obstacles[], int niveau) {
