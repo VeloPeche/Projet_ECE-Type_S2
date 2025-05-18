@@ -586,7 +586,7 @@ int main() {
                                  "Score : %d", score);
             textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2 + 30,
                                  makecol(255, 255, 255), -1,
-                                 "Aucune sauvegarde");
+                                 "C'est votre première partie, rien n'a encore été sauvgardé ! ");
         }
 
         blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
