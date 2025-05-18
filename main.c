@@ -536,16 +536,46 @@ int main() {
         }
 
         /* --- Fin du jeu (Game Over) --- */
-        clear_bitmap(page);
-        textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2-40,
-                             makecol(255,0,0), -1, "GAME OVER");
-        textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2,
-                             makecol(255,255,255), -1, "Score : %d", score);
-        textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2+20,
-                             makecol(255,255,255), -1,
-                             "Appuyez sur ENTER pour revenir au menu");
-        blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
+        int nouvelle_largeur  = SCREEN_W / 1;
+        int nouvelle_hauteur  = SCREEN_H / 1;
 
+        int x_centre = (SCREEN_W - nouvelle_largeur) / 1;
+        int y_centre = (SCREEN_H - nouvelle_hauteur) / 1;
+
+        stretch_sprite(page, gameover_img, x_centre, y_centre, nouvelle_largeur, nouvelle_hauteur);
+
+        textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2 - 40,
+                             makecol(255, 0, 0), -1,
+                             "GAME OVER");
+
+        // Lire la sauvegarde
+        int best_score_sauvegarde = 0, best_level_sauvegarde = 0;
+        if (lire_sauvegarde(pseudo, &best_score_sauvegarde, &best_level_sauvegarde)) {
+            // Afficher les scores récupérés sous le message
+            textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2 + 10,
+                                 makecol(255, 255, 255), -1,
+                                 "Score : %d", score);
+            textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2 + 30,
+                                 makecol(255, 255, 255), -1,
+                                 "Meilleur score : %d", best_score_sauvegarde);
+            textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2 + 50,
+                                 makecol(255, 255, 255), -1,
+                                 "Meilleur niveau : %d", best_level_sauvegarde);
+        } else {
+            // Si pas de sauvegarde, juste afficher score actuel
+            textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2 + 10,
+                                 makecol(255, 255, 255), -1,
+                                 "Score : %d", score);
+            textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2 + 30,
+                                 makecol(255, 255, 255), -1,
+                                 "Aucune sauvegarde");
+        }
+
+        blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+
+        ecrire_sauvegarde(pseudo,
+                         score > best_score ? score : best_score,
+                         niveau > best_level ? niveau : best_level);
         /* --- Sauvegarde --- */
         ecrire_sauvegarde(pseudo,
                          score > best_score ? score : best_score,
