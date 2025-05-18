@@ -40,7 +40,6 @@ typedef struct {
     int bouclier;
     time_t bouclierdebut;
 } Vaisseau;
-typedef struct { int x, y, vitesse, largeur, hauteur, nb_vie; } Vaisseau;
 typedef struct { int x,y,apparition,actif; } Ennemi;
 typedef struct { int x, y, actif; } Coeur;
 typedef struct {int x,y,actif; } Etoile_ennemie;
