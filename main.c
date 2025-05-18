@@ -473,62 +473,56 @@ int main() {
             }
 
             textprintf_ex(page,font,10,10,makecol(255,255,255), -1,
-                          "Score: %d", score);
-            textprintf_ex(page,font,10,30,makecol(255,255,255), -1,
-                          "Vies: %d", v.nb_vie);
-            textprintf_ex(page, font, SCREEN_W-100,10,
-                          makecol(255,255,0), -1,
+                          "Score: %d",score);
+            textprintf_ex(page,font,10,30,makecol(255,255,255),-1,
+                          "Vies: %d",v.nb_vie);
+            textprintf_ex(page,font,SCREEN_W-100,10,makecol(255,255,0),-1,
                           "Temps: %ds", DUREE_NIVEAU - t);
-            afficher_barre_de_vie(page, &v);
-            textprintf_centre_ex(page, font, SCREEN_W/2,10, makecol(255,255,255), -1,
-                          "Niveau %d", niveau);
-            textprintf_ex(page, font, SCREEN_W-100,30, makecol(255,255,255), -1,
+            afficher_barre_de_vie(page,&v);
+            textprintf_centre_ex(page,font,SCREEN_W/2,10,makecol(255,255,255),-1,
+                          "Niveau %d",niveau);
+            textprintf_ex(page, font, SCREEN_W-100,30,makecol(255,255,255),-1,
                           "Pause: P");
 
-            if (v.bouclier) {
-                for (int i = 0; i < 3; i++) {
-                    circle(page, v.x + v.largeur, v.y + v.hauteur,
-                           v.largeur+i, makecol(0,255,255));
+            if (v.bouclier){
+                for (int i = 0; i < 3; i++){
+                    circle(page, v.x + v.largeur,v.y + v.hauteur,v.largeur+i,makecol(0,255,255));
                 }
             }
-            if (v.bouclier) {
+            if (v.bouclier){
                 int temps_restant = DUREE_BOUCLIER - (int)difftime(time(NULL), v.bouclierdebut);
-                textprintf_ex(page, font, 10, 70, makecol(0,255,255), -1,
-                              "Bouclier: %ds", temps_restant > 0 ? temps_restant : 0);
+                textprintf_ex(page, font,10,70,makecol(0,255,255),-1,
+                              "Bouclier: %ds",temps_restant > 0 ? temps_restant : 0);
             }
 
-            if (v.bouclier) {
-                int temps_ecoule   = (int)difftime(time(NULL), v.bouclierdebut);
-                int temps_restant  = DUREE_BOUCLIER - temps_ecoule;
-                if (temps_restant < 0) temps_restant = 0;
+            if (v.bouclier){
+                int temps_ecoule   =(int)difftime(time(NULL), v.bouclierdebut);
+                int temps_restant  =DUREE_BOUCLIER - temps_ecoule;
+                if (temps_restant < 0) temps_restant=0;
 
-                int largeur_max = 100;
-                int largeur_actuelle = (temps_restant * largeur_max) / DUREE_BOUCLIER;
+                int largeur_max=100;
+                int largeur_actuelle=(temps_restant * largeur_max) / DUREE_BOUCLIER;
 
-                int x_barre = 10, y_barre = 80;
-                int h_barre = 10;
+                int x_barre=10;
+                int y_barre=80;
+                int h_barre=10;
 
                 // Fond de la barre
-                rectfill(page, x_barre, y_barre, x_barre + largeur_max, y_barre + h_barre,
-                         makecol(100, 100, 100));
+                rectfill(page,x_barre,y_barre,x_barre + largeur_max,y_barre + h_barre,makecol(100, 100, 100));
 
                 // Remplissage dynamique
-                rectfill(page, x_barre, y_barre, x_barre + largeur_actuelle, y_barre + h_barre,
-                         makecol(0, 255, 255));  // Cyan = couleur du bouclier
+                rectfill(page, x_barre,y_barre, x_barre + largeur_actuelle,y_barre + h_barre,makecol(0, 255, 255));  // Cyan = couleur du bouclier
 
                 // Bordure
-                rect(page, x_barre, y_barre, x_barre + largeur_max, y_barre + h_barre,
-                     makecol(255, 255, 255));
+                rect(page,x_barre, y_barre,x_barre + largeur_max,y_barre + h_barre,makecol(255, 255, 255));
             }
 
-            blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
+            blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
             rest(30);
         }
 
-        /* --- Fin de partie → sauvegarde --- */
-        ecrire_sauvegarde(pseudo,
-                          score > meilleur_score ? score : meilleur_score,
-                          niveau > meilleur_niveau ? niveau : meilleur_niveau);
+        // sauvegarde en fin de partie
+        ecrire_sauvegarde(pseudo,score > meilleur_score ? score : meilleur_score,niveau > meilleur_niveau ? niveau : meilleur_niveau);
     }
 
     destroy_bitmap(sprite_obstacle);
