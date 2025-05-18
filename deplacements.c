@@ -177,19 +177,19 @@ void detecter_collision_projectile(Projectile *pr,Ennemi *en,int *score){
     }
 }
 
-int collision_vaisseau_ennemi(const Vaisseau *v, const Ennemi *e){
+int collision_vaisseau_ennemi(const Vaisseau *v,const Ennemi *e){
     return e->actif &&v->x<e->x+LARGEUR_ENNEMI && v->x+v->largeur>e->x &&v->y<e->y+HAUTEUR_ENNEMI && v->y+v->hauteur>e->y;
 }
 
-int collision_vaisseau_coeur(const Vaisseau *v, const Coeur *c){
+int collision_vaisseau_coeur(const Vaisseau *v,const Coeur *c){
     return c->actif &&v->x<c->x+LARGEUR_COEUR && v->x+v->largeur>c->x &&v->y<c->y+HAUTEUR_COEUR && v->y+v->hauteur>c->y;
 }
 
-int collision_vaisseau_bouclier(const Vaisseau *v, const Bouclier *b){
+int collision_vaisseau_bouclier(const Vaisseau *v,const Bouclier *b){
     return b->actif &&v->x<b->x+LARGEUR_COEUR && v->x+v->largeur>b->x &&v->y<b->y+HAUTEUR_COEUR && v->y+v->hauteur>b->y;
 }
 
-void initialiser_etoiles(Etoile_ennemie etoiles[], Etoile_ennemie obstacles[], int niveau) {
+void initialiser_etoiles(Etoile_ennemie etoiles[],Etoile_ennemie obstacles[],int niveau) {
     int nombre_etoiles=0;
     int nombre_obstacles=0;
 
@@ -275,7 +275,7 @@ void initialiser_etoiles(Etoile_ennemie etoiles[], Etoile_ennemie obstacles[], i
 }
 
 
-int collision_vaisseau_obstacle(Vaisseau* v, Etoile_ennemie* e){
+int collision_vaisseau_obstacle(Vaisseau* v,Etoile_ennemie* e){
     return e->actif &&v->x < e->x + 32 &&v->x + v->largeur > e->x &&v->y < e->y + 32 &&v->y + v->hauteur > e->y;
 }
 

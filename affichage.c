@@ -15,7 +15,7 @@ void afficher_barre_de_vie(BITMAP *buf, const Vaisseau *v){
     rectfill(buf,x,y,x+cur,y+h,couleur);
 }
 
-void afficher_menu_principal(BITMAP *page,const char *pseudo,int sel,BITMAP *fondMenu, int meilleur_score, int meilleur_niveau)
+void afficher_menu_principal(BITMAP *page,const char *pseudo,int sel,BITMAP *fondMenu,int meilleur_score, int meilleur_niveau)
 {
     clear_bitmap(page);
     draw_sprite(page,fondMenu,0,0);
@@ -51,14 +51,14 @@ void afficher_menu_principal(BITMAP *page,const char *pseudo,int sel,BITMAP *fon
 
 void afficher_obstacles(BITMAP *page,BITMAP *sprite_obstacle,Etoile_ennemie obstacles[],int nombre) {
     for (int i = 0; i < nombre; i++){
-        if (obstacles[i].actif) {
+        if (obstacles[i].actif){
             draw_sprite(page,sprite_obstacle,obstacles[i].x,obstacles[i].y);
         }
     }
 }
 
-void afficher_drapeau(BITMAP *page,Drapeau *drapeau,BITMAP *sprite_drapeau) {
-    if (drapeau->actif) {
-        rectfill(page,drapeau->x, drapeau->y,drapeau->x + 20,drapeau->y + 30,makecol(255, 0, 0));
+void afficher_drapeau(BITMAP *page,Drapeau *drapeau,BITMAP *sprite_drapeau){
+    if (drapeau->actif){
+        rectfill(page,drapeau->x,drapeau->y,drapeau->x + 20,drapeau->y + 30,makecol(255, 0, 0));
     }
 }
