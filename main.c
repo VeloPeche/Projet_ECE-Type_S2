@@ -121,26 +121,13 @@ int main() {
                {23, 300},{23, 90},{23, 170},{24, 370},
             {25, 300},{27, 160},{27, 300},{27, 370},
             {28, 210},{29, 320},{31, 360},{31, 170},{31, 260},{31, 80},{33, 15},{33, 335},
-            {34, 95},
-            {35, 15},
-            {35, 175},
-            {36, 255},
-            {38, 75},
-            {38, 395},
-            {38, 5},
-            {39, 135},
-            {40, 215},
-            {40, 355},
-            {42, 25},
-            {42, 165},
-            {44, 305},
-            {44, 145},
-            {50, 285},
-            {47, 25},
-{53, 350},
+            {34, 95},{35, 15},{35, 175},{36, 255},
+            {38, 75},{38, 395},{38, 5},{39, 135},{40, 215},
+            {40, 355},{42, 25},{42, 165},{44, 305},
+            {44, 145},{50, 285},{47, 25},{53, 350},
         };
 
-        static Spawn patternF2[] = {
+        static Spawn patternF2[]={
             {0,50},{1,130},{2,210},{3,290},
             {4,380},{5, 80},{5,160},
             {7,20},{6,150},
@@ -153,14 +140,14 @@ int main() {
                 {40,330},{41,190},{40,0},{41,90},{43,70},{48,330},{48,190},
 {48,10},{49,200},{50,120},
         };
-        static Spawn patternF3[] = {
+        static Spawn patternF3[]={
             {1,0},{1,80},{1,160},{1,240},{1,320},{1,400},
            {7,200},{7,280},{11,240},{12,350},{12,250},{15,286},{19,230   },{19,395}
            ,{23,179} ,{25,230},{28,150},{28,0},{29,98   },{30,178},{31,250},{32,388   },{33,178},{32,8   },{33,108}
 ,{37,10},{38,108 },{49,100},{50,0},{50,80},{52,160},{54,330}
         };
 
-        static Spawn patternE2[] = {
+        static Spawn patternE2[]={
             {6,50},{6,160},{6,250},
             {8, 20},{8,100},{9,200},
             {10,20}, {10,100},
@@ -179,7 +166,7 @@ int main() {
 {44,5},{45,5},{44,165},
           {45,245},{46,325},{51,10},{52,40},
         };
-        static Spawn patternE3[] = {
+        static Spawn patternE3[]={
             {   2,15},{2,160},{2,250},{3,20},{3,140},
             {4,300},{4,390},{5,80},{5,220},{5,360},
             {6,80},{6,290},{6,380},{7,80},{8,260},{8,340},{8,180   },{9,390},{9,150},{10,230},
@@ -193,45 +180,46 @@ int main() {
 
         };
 
-        static Spawn patternO2[] = {
+        static Spawn patternO2[]={
             {4,350},{8,280},{12,200},{12,280},
                {10,200},{10,350},{8,280},{12,200},{12,280},
                {15,200},{16,280},{31,0},{52,150},{52,250},{45,350}
                   ,{55,159},{55,250},{55,350},
         };
-        static Spawn patternO3[] = {
+        static Spawn patternO3[]={
             {3,0},{6,10},{9,55},{12,55},{15,55},
             {3,300},{33,380},{33,300},{41,45}
         };
 
-        Spawn *patF = NULL, *patE = NULL, *patO = NULL;
+        Spawn *patF=NULL, *patE=NULL, *patO=NULL;
         int lenF=0,lenE=0,lenO=0, idxF=0,idxE=0,idxO=0;
 
-        if (niveau==1) {
-            patF = patternF1; lenF = sizeof(patternF1)/sizeof(*patternF1);
-        } else if (niveau==2) {
-            patF = patternF2; lenF = sizeof(patternF2)/sizeof(*patternF2);
-            patE = patternE2; lenE = sizeof(patternE2)/sizeof(*patternE2);
-            patO = patternO2; lenO = sizeof(patternO2)/sizeof(*patternO2);
-        } else {
-            patF = patternF3; lenF = sizeof(patternF3)/sizeof(*patternF3);
-            patE = patternE3; lenE = sizeof(patternE3)/sizeof(*patternE3);
-            patO = patternO3; lenO = sizeof(patternO3)/sizeof(*patternO3);
+        if (niveau==1){
+            patF=patternF1; lenF = sizeof(patternF1)/sizeof(*patternF1);
+        } else if (niveau==2){
+            patF=patternF2; lenF=sizeof(patternF2)/sizeof(*patternF2);
+            patE=patternE2; lenE=sizeof(patternE2)/sizeof(*patternE2);
+            patO=patternO2; lenO=sizeof(patternO2)/sizeof(*patternO2);
+        } else{
+            patF=patternF3; lenF=sizeof(patternF3)/sizeof(*patternF3);
+            patE=patternE3; lenE=sizeof(patternE3)/sizeof(*patternE3);
+            patO=patternO3; lenO=sizeof(patternO3)/sizeof(*patternO3);
         }
 
-        /* --- Initialisation des entités --- */
-        Vaisseau v                         = {50,240,5,32,32,VIES_INITIALES};
-        Projectile projectiles[MAX_PROJECTILES] = {{0}};
-        Ennemi fantomes[MAX_ENNEMIS]            = {{0}};
-        Ennemi ennemisSpeciaux[MAX_ENNEMIS]     = {{0}};
-        Missile missiles[MAX_MISSILES]          = {{0}};
-        Coeur coeurs[MAX_COEURS]                = {{0}};
-        Etoile_ennemie obstacles[30]            = {{0}};
-        Bouclier boucliers[MAX_BOUCLIERS]       = {{0}};
+        //init objets
+        Vaisseau v                         ={50,240,5,32,32,VIES_INITIALES};
+        Projectile projectiles[MAX_PROJECTILES] ={{0}};
+        Ennemi fantomes[MAX_ENNEMIS]            ={{0}};
+        Ennemi ennemisSpeciaux[MAX_ENNEMIS]     ={{0}};
+        Missile missiles[MAX_MISSILES]          ={{0}};
+        Coeur coeurs[MAX_COEURS]                ={{0}};
+        Etoile_ennemie obstacles[30]            ={{0}};
+        Bouclier boucliers[MAX_BOUCLIERS]       ={{0}};
 
-        int nbObs = 0, score = 0;
+        int nbObs=0;
+        int score=0;
 
-        clock_t last_tir      = 0;
+        clock_t dernier_tir      = 0;
         const int tir_delay   = 500;
         time_t debut          = time(NULL);
         int vitE              = vitesse_ennemi_selon_niveau(niveau);
@@ -261,25 +249,25 @@ int main() {
             if (key[KEY_DOWN])  dy =  v.vitesse;
             if (key[KEY_LEFT])  dx = -v.vitesse;
             if (key[KEY_RIGHT]) dx =  v.vitesse;
-            if (key[KEY_P] && !en_pause) {
-                en_pause = 1;
-                temps_debut_pause = time(NULL);
-                gerer_pause(page);  // ta fonction pause qui attend un appui pour reprendre
+            if (key[KEY_P] && !en_pause){
+                en_pause=1;
+                temps_debut_pause=time(NULL);
+                gerer_pause(page);  // att appui pour reprendre
                 // Quand on revient ici, on reprend la partie
                 time_pause_total += (time(NULL) - temps_debut_pause);
-                en_pause = 0;
+                en_pause=0;
             }
 
-            deplacer_vaisseau(&v, dx, dy);
+            deplacer_vaisseau(&v,dx,dy);
 
             // 3) Tir du joueur
-            if (key[KEY_SPACE] && clock() - last_tir >= tir_delay) {
-                for (int i = 0; i < MAX_PROJECTILES; i++) {
-                    if (!projectiles[i].actif) {
-                        projectiles[i].x     = v.x + v.largeur + 25;
-                        projectiles[i].y     = v.y + v.hauteur/2;
-                        projectiles[i].actif = 1;
-                        last_tir = clock();
+            if (key[KEY_SPACE] && clock() - dernier_tir >= tir_delay){
+                for (int i = 0; i < MAX_PROJECTILES; i++){
+                    if (!projectiles[i].actif){
+                        projectiles[i].x     =v.x + v.largeur + 25;
+                        projectiles[i].y     =v.y + v.hauteur/2;
+                        projectiles[i].actif =1;
+                        dernier_tir=clock();
                         break;
                     }
                 }
@@ -288,12 +276,12 @@ int main() {
                 deplacer_projectile(&projectiles[i]);
 
             // 4) Spawn fantômes
-            while (idxF < lenF && patF[idxF].t_spawn <= t) {
-                for (int i = 0; i < MAX_ENNEMIS; i++) {
-                    if (!fantomes[i].actif) {
-                        fantomes[i].actif = 1;
-                        fantomes[i].x     = SCREEN_W;
-                        fantomes[i].y     = patF[idxF].y;
+            while (idxF < lenF && patF[idxF].t_spawn <= t){
+                for (int i = 0; i < MAX_ENNEMIS; i++){
+                    if (!fantomes[i].actif){
+                        fantomes[i].actif =1;
+                        fantomes[i].x     =SCREEN_W;
+                        fantomes[i].y     =patF[idxF].y;
                         break;
                     }
                 }
@@ -301,13 +289,13 @@ int main() {
             }
 
             // 5) Spawn opps (ennemis spéciaux)
-            if (patE) {
-                while (idxE < lenE && patE[idxE].t_spawn<= t) {
-                    for (int i = 0; i < MAX_ENNEMIS; i++) {
-                        if (!ennemisSpeciaux[i].actif) {
-                            ennemisSpeciaux[i].actif = 1;
-                            ennemisSpeciaux[i].x     = SCREEN_W;
-                            ennemisSpeciaux[i].y     = patE[idxE].y;
+            if (patE){
+                while (idxE < lenE && patE[idxE].t_spawn<= t){
+                    for (int i = 0; i < MAX_ENNEMIS; i++){
+                        if (!ennemisSpeciaux[i].actif){
+                            ennemisSpeciaux[i].actif =1;
+                            ennemisSpeciaux[i].x     =SCREEN_W;
+                            ennemisSpeciaux[i].y     =patE[idxE].y;
                             break;
                         }
                     }
@@ -316,13 +304,13 @@ int main() {
             }
 
             // 6) Spawn obstacles
-            if (patO) {
-                while (idxO < lenO && patO[idxO].t_spawn <= t) {
-                    for (int i = 0; i < 30; i++) {
-                        if (!obstacles[i].actif) {
-                            obstacles[i].actif = 1;
-                            obstacles[i].x     = SCREEN_W;
-                            obstacles[i].y     = patO[idxO].y;
+            if (patO){
+                while (idxO < lenO && patO[idxO].t_spawn <= t){
+                    for (int i = 0; i < 30; i++){
+                        if (!obstacles[i].actif){
+                            obstacles[i].actif =1;
+                            obstacles[i].x     =SCREEN_W;
+                            obstacles[i].y     =patO[idxO].y;
                             nbObs++;
                             break;
                         }
@@ -332,178 +320,161 @@ int main() {
             }
 
             // 7) MAJ & collisions fantômes
-            for (int i = 0; i < MAX_ENNEMIS; i++) {
-                if (fantomes[i].actif) {
+            for (int i = 0; i < MAX_ENNEMIS; i++){
+                if (fantomes[i].actif){
                     fantomes[i].x -= vitE;
                     if (fantomes[i].x < -LARGEUR_ENNEMI)
-                        fantomes[i].actif = 0;
+                        fantomes[i].actif=0;
                 }
-                if (v.bouclier == 0 && collision_vaisseau_ennemi(&v, &fantomes[i])) {
+                if (v.bouclier == 0 && collision_vaisseau_ennemi(&v, &fantomes[i])){
                     v.nb_vie--;
-                    fantomes[i].actif = 0;
+                    fantomes[i].actif=0;
                 }
                 for (int j = 0; j < MAX_PROJECTILES; j++)
-                    detecter_collision_projectile(&projectiles[j],
-                                                  &fantomes[i],
-                                                  &score);
+                    detecter_collision_projectile(&projectiles[j],&fantomes[i],&score);
             }
 
             // 8) MAJ & tirs opps
-            for (int i = 0; i < MAX_ENNEMIS; i++) {
-                if (ennemisSpeciaux[i].actif) {
-                    ennemisSpeciaux[i].x -= vitE;
+            for (int i = 0; i < MAX_ENNEMIS; i++){
+                if (ennemisSpeciaux[i].actif){
+                    ennemisSpeciaux[i].x -=vitE;
                     if (ennemisSpeciaux[i].x < -LARGEUR_ENNEMI)
-                        ennemisSpeciaux[i].actif = 0;
-                    if (v.bouclier == 0 && collision_vaisseau_ennemi(&v, &ennemisSpeciaux[i])) {
+                        ennemisSpeciaux[i].actif=0;
+                    if (v.bouclier == 0 && collision_vaisseau_ennemi(&v,&ennemisSpeciaux[i])){
                         v.nb_vie--;
-                        ennemisSpeciaux[i].actif = 0;
+                        ennemisSpeciaux[i].actif=0;
                     }
-                    if (rand() % 150 == 0) {
-                        for (int m = 0; m < MAX_MISSILES; m++) {
-                            if (!missiles[m].actif) {
-                                missiles[m].actif = 1;
-                                missiles[m].x     = ennemisSpeciaux[i].x;
-                                missiles[m].y     = ennemisSpeciaux[i].y + HAUTEUR_ENNEMI/2;
+                    if (rand() % 150 == 0){
+                        for (int m = 0; m < MAX_MISSILES; m++){
+                            if (!missiles[m].actif){
+                                missiles[m].actif =1;
+                                missiles[m].x     =ennemisSpeciaux[i].x;
+                                missiles[m].y     =ennemisSpeciaux[i].y + HAUTEUR_ENNEMI/2;
                                 break;
                             }
                         }
                     }
                     // collision projectile↔opps
                     for (int j = 0; j < MAX_PROJECTILES; j++)
-                        detecter_collision_projectile(&projectiles[j],
-                                                      &ennemisSpeciaux[i],
-                                                      &score);
+                        detecter_collision_projectile(&projectiles[j],&ennemisSpeciaux[i],&score);
                 }
             }
 
             // 9) MAJ missiles & collisions
-            for (int m = 0; m < MAX_MISSILES; m++) {
-                if (missiles[m].actif) {
+            for (int m = 0; m < MAX_MISSILES; m++){
+                if (missiles[m].actif){
                     missiles[m].x -= (vitE + 2);
                     if (missiles[m].x < 0)
-                        missiles[m].actif = 0;
+                        missiles[m].actif=0;
                 }
                 detecter_collision_missile_vers_vaisseau(&missiles[m], &v);
                 for (int i = 0; i < MAX_PROJECTILES; i++)
-                    detecter_collision_missile_projectile(&missiles[m],
-                                                          &projectiles[i]);
+                    detecter_collision_missile_projectile(&missiles[m],&projectiles[i]);
             }
 
             // 10) Spawn & MAJ cœurs
-            if (rand() % 300 == 0) {
-                for (int c = 0; c < MAX_COEURS; c++) {
-                    if (!coeurs[c].actif) {
-                        coeurs[c].actif = 1;
-                        coeurs[c].x     = SCREEN_W;
-                        coeurs[c].y     = rand() % (SCREEN_H - HAUTEUR_COEUR);
+            if (rand() % 300 == 0){
+                for (int c = 0; c < MAX_COEURS; c++){
+                    if (!coeurs[c].actif){
+                        coeurs[c].actif =1;
+                        coeurs[c].x     =SCREEN_W;
+                        coeurs[c].y     =rand() % (SCREEN_H - HAUTEUR_COEUR);
                         break;
                     }
                 }
             }
-            for (int c = 0; c < MAX_COEURS; c++) {
-                if (coeurs[c].actif) {
+            for (int c = 0; c < MAX_COEURS; c++){
+                if (coeurs[c].actif){
                     coeurs[c].x -= vitC;
                     if (coeurs[c].x < -LARGEUR_COEUR)
-                        coeurs[c].actif = 0;
-                    else if (collision_vaisseau_coeur(&v, &coeurs[c])) {
+                        coeurs[c].actif=0;
+                    else if (collision_vaisseau_coeur(&v, &coeurs[c])){
                         if (v.nb_vie < VIES_INITIALES)
                             v.nb_vie++;
-                        coeurs[c].actif = 0;
+                        coeurs[c].actif=0;
                     }
                 }
             }
 
             // 10bis) Spawn & MAJ boucliers
-            if (rand() % 300 == 0) {  // Un peu plus rare que les cœurs
-                for (int b = 0; b < MAX_BOUCLIERS; b++) {
-                    if (!boucliers[b].actif) {
-                        boucliers[b].actif = 1;
-                        boucliers[b].x     = SCREEN_W;
-                        boucliers[b].y     = rand() % (SCREEN_H - 32);
+            if (rand() % 300 == 0){  // Un peu plus rare que les cœurs
+                for (int b = 0; b < MAX_BOUCLIERS; b++){
+                    if (!boucliers[b].actif){
+                        boucliers[b].actif =1;
+                        boucliers[b].x     =SCREEN_W;
+                        boucliers[b].y     =rand() % (SCREEN_H - 32);
                         break;
                     }
                 }
             }
-            for (int b = 0; b < MAX_BOUCLIERS; b++) {
-                if (boucliers[b].actif) {
+            for (int b = 0; b < MAX_BOUCLIERS; b++){
+                if (boucliers[b].actif){
                     boucliers[b].x -= VITESSE_BOUCLIER;  // Même vitesse que les cœurs
-                    if (boucliers[b].x < -32) {
-                        boucliers[b].actif = 0;
+                    if (boucliers[b].x < -32){
+                        boucliers[b].actif=0;
                     }
-                    else if (collision_vaisseau_bouclier(&v, &boucliers[b])) {
-                        boucliers[b].actif = 0;
-                        v.nb_vie = 3;
-                        v.bouclier = 1;
-                        v.bouclierdebut = time(NULL);
+                    else if (collision_vaisseau_bouclier(&v, &boucliers[b])){
+                        boucliers[b].actif=0;
+                        v.nb_vie=3;
+                        v.bouclier=1;
+                        v.bouclierdebut=time(NULL);
 
                     }
                 }
-                if (v.bouclier && difftime(time(NULL), v.bouclierdebut) >= DUREE_BOUCLIER) {
-                    v.bouclier = 0;  // bouclier désactivé après durée écoulée
+                if (v.bouclier && difftime(time(NULL), v.bouclierdebut) >= DUREE_BOUCLIER){
+                    v.bouclier=0;  // bouclier désactivé après durée écoulée
                 }
 
             }
 
             // 11) MAJ obstacles & collisions
-            for (int i = 0; i < 30; i++) {
-                if (obstacles[i].actif) {
+            for (int i = 0; i < 30; i++){
+                if (obstacles[i].actif){
                     obstacles[i].x -= 2;
-                    if (obstacles[i].x < -32) {
-                        obstacles[i].actif = 0;
+                    if (obstacles[i].x < -32){
+                        obstacles[i].actif=0;
                         nbObs--;
                     }
-                    if (v.bouclier == 0 && collision_vaisseau_obstacle(&v, &obstacles[i])) {
+                    if (v.bouclier == 0 && collision_vaisseau_obstacle(&v,&obstacles[i])){
                         v.nb_vie--;
-                        obstacles[i].actif = 0;
+                        obstacles[i].actif=0;
                         nbObs--;
                     }
                 }
             }
 
             // 12) Affichage final
-            draw_sprite(page, vaisseau_img, v.x, v.y);
-            for (int i = 0; i < MAX_PROJECTILES; i++) {
+            draw_sprite(page, vaisseau_img,v.x,v.y);
+            for (int i = 0; i < MAX_PROJECTILES; i++){
                 if (projectiles[i].actif)
-                    rectfill(page,
-                             projectiles[i].x, projectiles[i].y,
-                             projectiles[i].x + 5, projectiles[i].y + 5,
-                             makecol(255,0,0));
+                    rectfill(page,projectiles[i].x, projectiles[i].y,projectiles[i].x + 5,projectiles[i].y + 5,makecol(255,0,0));
             }
-            for (int m = 0; m < MAX_MISSILES; m++) {
+            for (int m = 0; m < MAX_MISSILES; m++){
                 if (missiles[m].actif)
-                    circlefill(page,
-                               missiles[m].x, missiles[m].y,
-                               8, makecol(0,255,255));
+                    circlefill(page,missiles[m].x, missiles[m].y,8, makecol(0,255,255));
             }
-            for (int i = 0; i < MAX_ENNEMIS; i++) {
+            for (int i = 0; i < MAX_ENNEMIS; i++){
                 if (fantomes[i].actif)
-                    draw_sprite(page, fantome_img,
-                                fantomes[i].x, fantomes[i].y);
+                    draw_sprite(page, fantome_img,fantomes[i].x, fantomes[i].y);
                 if (ennemisSpeciaux[i].actif)
-                    draw_sprite(page, ennemi_img,
-                                ennemisSpeciaux[i].x, ennemisSpeciaux[i].y);
+                    draw_sprite(page, ennemi_img,ennemisSpeciaux[i].x, ennemisSpeciaux[i].y);
             }
-            for (int c = 0; c < MAX_COEURS; c++) {
+            for (int c = 0; c < MAX_COEURS; c++){
                 if (coeurs[c].actif)
-                    stretch_sprite(page, coeur_img,
-                                   coeurs[c].x, coeurs[c].y,
-                                   coeur_img->w/5, coeur_img->h/5);
+                    stretch_sprite(page,coeur_img,coeurs[c].x, coeurs[c].y,coeur_img->w/5, coeur_img->h/5);
             }
-            for (int b = 0; b < MAX_BOUCLIERS; b++) {
+            for (int b = 0; b < MAX_BOUCLIERS; b++){
                 if (boucliers[b].actif)
-                    stretch_sprite(page, bouclier_img,
-                                   boucliers[b].x, boucliers[b].y,
-                                   bouclier_img->w/20, bouclier_img->h/20);
+                    stretch_sprite(page,bouclier_img,boucliers[b].x, boucliers[b].y,bouclier_img->w/20, bouclier_img->h/20);
             }
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < 30; i++){
                 if (obstacles[i].actif)
-                    draw_sprite(page, sprite_obstacle,
-                                obstacles[i].x, obstacles[i].y);
+                    draw_sprite(page, sprite_obstacle,obstacles[i].x, obstacles[i].y);
             }
 
-            textprintf_ex(page, font, 10,10, makecol(255,255,255), -1,
+            textprintf_ex(page,font,10,10,makecol(255,255,255), -1,
                           "Score: %d", score);
-            textprintf_ex(page, font, 10,30, makecol(255,255,255), -1,
+            textprintf_ex(page,font,10,30,makecol(255,255,255), -1,
                           "Vies: %d", v.nb_vie);
             textprintf_ex(page, font, SCREEN_W-100,10,
                           makecol(255,255,0), -1,
