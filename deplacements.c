@@ -193,7 +193,7 @@ void initialiser_etoiles(Etoile_ennemie etoiles[], Etoile_ennemie obstacles[], i
     int nombre_etoiles=0;
     int nombre_obstacles=0;
 
-    if (niveau == 1){
+    if (niveau == 1){ //diff selon les niveaux
         nombre_etoiles=MAX_ETOILES_NIVEAU_1;
         nombre_obstacles=15;
         int positions_etoiles[15][2] ={

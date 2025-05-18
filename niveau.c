@@ -3,38 +3,38 @@
 #include <string.h>
 #include"donnees.h"
 #include"deplacements.h"
-int compteur_spawn = 0;
-int index_spawn = 0;
+int compteur_spawn=0;
+int index_spawn=0;
 
 
 Ennemi ennemis[NOMBRE_ENNEMIS_NIVEAU1];
-int demander_niveau(BITMAP *page, BITMAP *fond_menu) {
-    int niveau = 1;
+int demander_niveau(BITMAP *page, BITMAP *fond_menu){
+    int niveau=1;
     clear_keybuf();  // Vide le buffer clavier au début
 
-    while (1) {
+    while (1){
         clear_bitmap(page);
-        draw_sprite(page, fond_menu, 0, 0);
+        draw_sprite(page,fond_menu,0,0);
 
-        textout_centre_ex(page, font, "Choisissez le niveau :", SCREEN_W / 2, 100, makecol(255, 255, 255), -1);
-        for (int i = 1; i <= 3; i++) {
-            int couleur = (i == niveau) ? makecol(255, 255, 0) : makecol(255, 255, 255);
+        textout_centre_ex(page,font,"Choisissez le niveau :",SCREEN_W / 2,100,makecol(255, 255, 255),-1);
+        for (int i = 1; i <= 3; i++){
+            int couleur =(i == niveau) ? makecol(255, 255, 0) : makecol(255, 255, 255);
             char texte[20];
             sprintf(texte, "Niveau %d", i);
-            textout_centre_ex(page, font, texte, SCREEN_W / 2, 150 + i * 30, couleur, -1);
+            textout_centre_ex(page,font,texte,SCREEN_W / 2,150 + i * 30,couleur,-1);
         }
 
-        blit(page, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
         int touche = readkey();  // Attend une touche
 
-        if ((touche >> 8) == KEY_UP) {
+        if ((touche >> 8) == KEY_UP){
             if (niveau > 1) niveau--;
         }
-        else if ((touche >> 8) == KEY_DOWN) {
+        else if ((touche >> 8) == KEY_DOWN){
             if (niveau < 3) niveau++;
         }
-        else if ((touche & 0xFF) == 13) { // Entrée
+        else if ((touche & 0xFF) == 13){ // Entrée
             break;
         }
 
@@ -46,7 +46,7 @@ int demander_niveau(BITMAP *page, BITMAP *fond_menu) {
 }
 
 
-int vitesse_ennemi_selon_niveau(int niveau) {
+int vitesse_ennemi_selon_niveau(int niveau){
     switch(niveau){
         case 1: return VITESSE_ENNEMI_N1;
         case 2: return VITESSE_ENNEMI_N2;
@@ -54,7 +54,7 @@ int vitesse_ennemi_selon_niveau(int niveau) {
         default: return VITESSE_ENNEMI_N1;
     }
 }
-int vitesse_coeur_selon_niveau(int niveau) {
+int vitesse_coeur_selon_niveau(int niveau){
     switch(niveau){
         case 1: return VITESSE_COEUR_N1;
         case 2: return VITESSE_COEUR_N2;
@@ -63,14 +63,14 @@ int vitesse_coeur_selon_niveau(int niveau) {
     }
 }
 
-void initialiser_niveau_1() {
-    compteur_spawn = 0;
-    index_spawn = 0;
-    for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
-        ennemis[i].actif = 0;
-        ennemis[i].x = 0;
-        ennemis[i].y = 0;
-        ennemis[i].apparition = 0;
+void initialiser_niveau_1(){
+    compteur_spawn=0;
+    index_spawn=0;
+    for (int i=0; i < NOMBRE_ENNEMIS_NIVEAU1; i++){
+        ennemis[i].actif=0;
+        ennemis[i].x=0;
+        ennemis[i].y=0;
+        ennemis[i].apparition=0;
     }
 }
 
