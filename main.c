@@ -17,7 +17,7 @@
 typedef struct {
     int t_spawn;   // seconde depuis le début
     int y;         // ordonnée de spawn
-} SpawnEvent;
+} Spawn;
 
 int main() {
     /* --- Initialisation Allegro --- */
@@ -27,36 +27,35 @@ int main() {
     install_mouse();
     set_color_depth(32);
 
-    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0)) {
+    if (set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0)) { // taille écran
         allegro_message("Erreur mode graphique");
         return 1;
     }
 
-    /* --- Chargement des bitmaps --- */
-    BITMAP *page            = create_bitmap(SCREEN_W, SCREEN_H);
-    BITMAP *fond_menu       = charger_bitmap_sure("menu5.bmp");
-    BITMAP *fond            = charger_bitmap_sure("Fond1600x600.bmp");
-    BITMAP *vaisseau_img    = charger_bitmap_sure("Vaisseau.bmp");
-    BITMAP *fantome_img     = charger_bitmap_sure("Fantome_rose.bmp");
-    BITMAP *ennemi_img      = charger_bitmap_sure("Fantome_rouge.bmp");
-    BITMAP *coeur_img       = charger_bitmap_sure("coeur_magenta.bmp");
-    BITMAP *sprite_obstacle = charger_bitmap_sure("etoile_ennemie.bmp");
-    BITMAP *bouclier_img    = charger_bitmap_sure("bouclier.bmp");
+    //charge des bitmap
+    BITMAP *page            =create_bitmap(SCREEN_W, SCREEN_H);
+    BITMAP *fond_menu       =charger_bitmap_sure("menu5.bmp");
+    BITMAP *fond            =charger_bitmap_sure("Fond1600x600.bmp");
+    BITMAP *vaisseau_img    =charger_bitmap_sure("Vaisseau.bmp");
+    BITMAP *fantome_img     =charger_bitmap_sure("Fantome_rose.bmp");
+    BITMAP *ennemi_img      =charger_bitmap_sure("Fantome_rouge.bmp");
+    BITMAP *coeur_img       =charger_bitmap_sure("coeur_magenta.bmp");
+    BITMAP *sprite_obstacle =charger_bitmap_sure("etoile_ennemie.bmp");
+    BITMAP *bouclier_img    =charger_bitmap_sure("bouclier.bmp");
 
 
-    /* --- Saisie du pseudo --- */
-    char pseudo[50] = "";
-    while (1) {
+    //choix du pseudo
+    char pseudo[50]="";
+    while (1){
         clear_bitmap(page);
-        draw_sprite(page, fond_menu, 0, 0);
-        textout_centre_ex(page, font, "Entrez votre pseudo:",
-                          SCREEN_W/2, 100, makecol(255,255,255), -1);
-        textout_ex(page, font, pseudo,
-                   SCREEN_W/2 - 50, 130, makecol(0,255,0), -1);
-        blit(page, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
-        if (keypressed()) {
-            int k = readkey(), c = k & 0xFF;
-            if      (c == 8  && strlen(pseudo) > 0) pseudo[strlen(pseudo)-1] = 0;
+        draw_sprite(page,fond_menu,0,0);
+        textout_centre_ex(page,font, "Entrez votre pseudo:",SCREEN_W/2, 100,makecol(255,255,255), -1);
+        textout_ex(page,font,pseudo,SCREEN_W/2 - 50,130, makecol(0,255,0),-1);
+        blit(page,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+        if (keypressed()){
+            int k=readkey();
+            int c=k & 0xFF;
+            if      (c == 8  && strlen(pseudo) > 0) pseudo[strlen(pseudo)-1]=0;
             else if (c == 13 && strlen(pseudo) > 0) break;
             else if (isprint(c) && strlen(pseudo) < sizeof(pseudo)-1)
                 strncat(pseudo, (char[]){c,0}, 1);
@@ -65,36 +64,36 @@ int main() {
     }
     clear_keybuf();
     rest(500);
-
-    /* --- Chargement de la sauvegarde --- */
-    int best_score = -1, best_level = -1;
-    lire_sauvegarde(pseudo, &best_score, &best_level);
+// charge des sauvegardes
+    int meilleur_score=-1;
+    int meilleur_niveau=-1;
+    lire_sauvegarde(pseudo,&meilleur_score,&meilleur_niveau);
 
     /* --- Boucle principale menu → jeu → menu --- */
-    while (1) {
-        int selection = 1;
-        /* --- Affichage du menu --- */
-        while (1) {
-            afficher_menu_principal(page, pseudo, selection,
-                                    fond_menu, best_score, best_level);
-            if      (key[KEY_UP])    { if (selection>1) selection--; rest(150); }
-            else if (key[KEY_DOWN])  { if (selection<3) selection++; rest(150); }
-            else if (key[KEY_ENTER]) {
-                if (selection==3) {
-                    ecrire_sauvegarde(pseudo, best_score, best_level);
+    while (1){
+        int selection=1;
+        //affiche menu
+        while (1){
+            afficher_menu_principal(page,pseudo,selection,fond_menu,meilleur_score,meilleur_niveau);
+            if      (key[KEY_UP])   { if (selection>1) selection--; rest(150); }
+            else if (key[KEY_DOWN]) { if (selection<3) selection++; rest(150); }
+            else if (key[KEY_ENTER]){
+                if (selection==3){
+                    ecrire_sauvegarde(pseudo,meilleur_score,meilleur_niveau);
                     allegro_exit();
                     return 0;
                 }
                 break;
             }
-            if (mouse_b & 1) {
-                int mx = mouse_x, my = mouse_y;
+            if (mouse_b & 1){
+                int mx=mouse_x;
+                int my=mouse_y;
                 if (mx > SCREEN_W/2-100 && mx < SCREEN_W/2+100 &&
                     my > SCREEN_H/2-30  && my < SCREEN_H/2+60)
                 {
-                    selection = ((my - (SCREEN_H/2 - 30)) / 30) + 1;
-                    if (selection==3) {
-                        ecrire_sauvegarde(pseudo, best_score, best_level);
+                    selection =((my - (SCREEN_H/2 - 30)) / 30) + 1;
+                    if (selection==3){
+                        ecrire_sauvegarde(pseudo,meilleur_score,meilleur_niveau);
                         allegro_exit();
                         return 0;
                     }
@@ -104,11 +103,11 @@ int main() {
             rest(30);
         }
 
-        /* --- Choix du niveau --- */
-        int niveau = demander_niveau(page, fond_menu);
+        //choix niveaux
+        int niveau=demander_niveau(page,fond_menu);
 
-        /* --- Définition des patterns selon le niveau --- */
-        static SpawnEvent patternF1[66] = {
+        //Pattern selon niveaux
+        static Spawn patternF1[66] ={
             {0, 10},{0, 400},{0, 200},{3, 300},
             {3, 300},{3, 200},{4, 370},
               {4, 100},{5, 20},{6, 220},
@@ -141,7 +140,7 @@ int main() {
 {53, 350},
         };
 
-        static SpawnEvent patternF2[] = {
+        static Spawn patternF2[] = {
             {0,50},{1,130},{2,210},{3,290},
             {4,380},{5, 80},{5,160},
             {7,20},{6,150},
@@ -154,14 +153,14 @@ int main() {
                 {40,330},{41,190},{40,0},{41,90},{43,70},{48,330},{48,190},
 {48,10},{49,200},{50,120},
         };
-        static SpawnEvent patternF3[] = {
+        static Spawn patternF3[] = {
             {1,0},{1,80},{1,160},{1,240},{1,320},{1,400},
            {7,200},{7,280},{11,240},{12,350},{12,250},{15,286},{19,230   },{19,395}
            ,{23,179} ,{25,230},{28,150},{28,0},{29,98   },{30,178},{31,250},{32,388   },{33,178},{32,8   },{33,108}
 ,{37,10},{38,108 },{49,100},{50,0},{50,80},{52,160},{54,330}
         };
 
-        static SpawnEvent patternE2[] = {
+        static Spawn patternE2[] = {
             {6,50},{6,160},{6,250},
             {8, 20},{8,100},{9,200},
             {10,20}, {10,100},
@@ -180,7 +179,7 @@ int main() {
 {44,5},{45,5},{44,165},
           {45,245},{46,325},{51,10},{52,40},
         };
-        static SpawnEvent patternE3[] = {
+        static Spawn patternE3[] = {
             {   2,15},{2,160},{2,250},{3,20},{3,140},
             {4,300},{4,390},{5,80},{5,220},{5,360},
             {6,80},{6,290},{6,380},{7,80},{8,260},{8,340},{8,180   },{9,390},{9,150},{10,230},
@@ -194,18 +193,18 @@ int main() {
 
         };
 
-        static SpawnEvent patternO2[] = {
+        static Spawn patternO2[] = {
             {4,350},{8,280},{12,200},{12,280},
                {10,200},{10,350},{8,280},{12,200},{12,280},
                {15,200},{16,280},{31,0},{52,150},{52,250},{45,350}
                   ,{55,159},{55,250},{55,350},
         };
-        static SpawnEvent patternO3[] = {
+        static Spawn patternO3[] = {
             {3,0},{6,10},{9,55},{12,55},{15,55},
             {3,300},{33,380},{33,300},{41,45}
         };
 
-        SpawnEvent *patF = NULL, *patE = NULL, *patO = NULL;
+        Spawn *patF = NULL, *patE = NULL, *patO = NULL;
         int lenF=0,lenE=0,lenO=0, idxF=0,idxE=0,idxO=0;
 
         if (niveau==1) {
@@ -557,8 +556,8 @@ int main() {
 
         /* --- Fin de partie → sauvegarde --- */
         ecrire_sauvegarde(pseudo,
-                          score > best_score ? score : best_score,
-                          niveau > best_level ? niveau : best_level);
+                          score > meilleur_score ? score : meilleur_score,
+                          niveau > meilleur_niveau ? niveau : meilleur_niveau);
     }
 
     destroy_bitmap(sprite_obstacle);
