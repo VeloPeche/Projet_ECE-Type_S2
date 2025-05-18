@@ -1,7 +1,13 @@
 #include "niveau.h"
 #include <stdio.h>
 #include <string.h>
+#include"donnees.h"
+#include"deplacements.h"
+int compteur_spawn = 0;
+int index_spawn = 0;
 
+
+Ennemi ennemis[NOMBRE_ENNEMIS_NIVEAU1];
 int demander_niveau(BITMAP *page, BITMAP *fond_menu) {
     int niveau = 1;
     clear_keybuf();  // Vide le buffer clavier au début
@@ -56,4 +62,16 @@ int vitesse_coeur_selon_niveau(int niveau) {
         default: return VITESSE_COEUR_N1;
     }
 }
+
+void initialiser_niveau_1() {
+    compteur_spawn = 0;
+    index_spawn = 0;
+    for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
+        ennemis[i].actif = 0;
+        ennemis[i].x = 0;
+        ennemis[i].y = 0;
+        ennemis[i].apparition = 0;
+    }
+}
+
 

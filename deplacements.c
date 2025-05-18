@@ -5,6 +5,84 @@
 // … vos autres includes …
 // ... vos fonctions existantes ...
 
+#define MARGE_BAS 12
+#define MARGE_DROITE 30
+
+Drapeau drapeau_niveau1;
+
+Ennemi ennemis_niveau1[66] = {
+
+    {640, 10,   0, 0},
+    {645, 400,   0, 0},
+    {650, 200,   0, 0},
+    {655, 300,  54, 0},
+    {660, 300,  70, 0},
+    {665, 200,  54, 0},
+    {670, 370,  90, 0},
+    {675, 20,  120, 0},
+    {680, 100,  90, 0},
+    {685, 120, 162, 0},
+    {690, 310, 140, 0},
+    {695, 220, 125, 0},
+    {640, 20,  186, 0},
+    {645, 120,  216, 0},
+    {650, 345, 216, 0},
+    {655, 149, 240, 0},
+    {660, 230, 270, 0},
+    {665, 360, 270, 0},
+    {670, 245, 324, 0},
+    {675, 355, 324, 0},
+    {680, 10, 324, 0},
+    {685, 220, 378, 0},
+    {690, 20, 358, 0},
+    {695, 360, 390, 0},
+    {640, 30,  432, 0},
+    {645, 120,  452, 0},
+    {650, 340, 402, 0},
+    {655, 110, 486, 0},
+    {660, 180, 486, 0},
+    {665, 250, 486, 0},
+    {670, 100, 500, 0},
+    {675, 310, 490, 0},
+    {680, 230, 550, 0},
+    {685, 390, 594, 0},
+    {690, 30, 504, 0},
+    {695, 230, 594, 0},
+    {640, 40,  640, 0},
+    {645, 120,  608, 0},
+    {650, 200, 657, 0},
+    {655, 160, 702, 0},
+    {660, 300, 702, 0},
+    {665, 370, 702, 0},
+    {670, 280, 736, 0},
+    {675, 320, 750, 0},
+    {680, 360, 795, 0},
+    {685, 370, 810, 0},
+    {690, 260, 810, 0},
+    {695, 180, 810, 0},
+    {640, 15,  854, 0},
+    {645, 335,  854, 0},
+    {650, 95,  870, 0},
+    {655, 35, 900, 0},
+    {660, 175, 900, 0},
+    {665, 255, 930, 0},
+    {670, 255, 972, 0},
+    {675, 395, 972, 0},
+    {680, 35, 972, 0},
+    {685, 135, 998, 0},
+    {690, 215, 1026, 0},
+    {695, 355, 1026, 0},
+    {640, 25, 1080, 0},
+    {645, 165, 1080, 0},
+    {650, 305,1080, 0},
+    {655, 145,1134, 0},
+    {660, 285,1134, 0},
+    {665, 25,1134, 0},
+
+
+};
+
+
 int detecter_collision_missile_projectile(Missile *m, Projectile *p) {
     if (!m->actif || !p->actif) return 0;
     // On considère le missile comme un carré de 2*R x 2*R centré sur (x,y)
@@ -37,13 +115,30 @@ void detecter_collision_missile_vers_vaisseau(Missile *m, Vaisseau *v){
     }
 }
 
-void deplacer_vaisseau(Vaisseau *v,int dx,int dy){
-    v->x+=dx; v->y+=dy;
-    if(v->x<0) v->x=0;
-    if(v->x>SCREEN_W-v->largeur) v->x=SCREEN_W-v->largeur;
-    if(v->y<0) v->y=0;
-    if(v->y>SCREEN_H-v->hauteur) v->y=SCREEN_H-v->hauteur;
+
+void deplacer_vaisseau(Vaisseau *v, int dx, int dy) {
+    v->x += dx;
+    v->y += dy;
+
+    // Limite gauche
+    if (v->x < 0)
+        v->x = 0;
+    // Limite droite
+    if (v->x > SCREEN_W - v->largeur - MARGE_DROITE)
+        v->x = SCREEN_W - v->largeur - MARGE_DROITE;
+
+    // Limite haut
+    if (v->y < 0)
+        v->y = 0;
+    // Limite bas avec marge
+    if (v->y > SCREEN_H - v->hauteur - MARGE_BAS)
+        v->y = SCREEN_H - v->hauteur - MARGE_BAS;
 }
+
+
+
+
+
 
 void deplacer_projectile(Projectile *p){
     if(p->actif){
@@ -52,10 +147,13 @@ void deplacer_projectile(Projectile *p){
     }
 }
 
-void deplacer_ennemi(Ennemi *e){
-    if(e->actif){
-        e->x-=VITESSE_ENNEMI;
-        if(e->x< -LARGEUR_ENNEMI) e->actif=0;
+
+void deplacer_ennemi(Ennemi* e, int vitesse) {
+    if (e->actif) {
+        e->x -= vitesse;
+        if (e->x < -LARGEUR_ENNEMI) {
+            e->actif = 0;
+        }
     }
 }
 
@@ -180,4 +278,31 @@ int collision_vaisseau_obstacle(Vaisseau* v, Etoile_ennemie* e) {
            v->y < e->y + 32 &&
            v->y + v->hauteur > e->y;
 }
+
+int collision_vaisseau_drapeau(const Vaisseau* v, const Drapeau* d) {
+    if (!d->actif) return 0;
+    return (v->x < d->x + d->largeur) &&
+           (v->x + v->largeur > d->x) &&
+           (v->y < d->y + d->hauteur) &&
+           (v->y + v->hauteur > d->y);
+}
+
+
+void init_ennemis_niveau1() {
+    for (int i = 0; i < NOMBRE_ENNEMIS_NIVEAU1; i++) {
+        ennemis_niveau1[i].actif = 0;
+    }
+}
+
+void init_drapeau_niveau1() {
+    drapeau_niveau1.x = 50;   // Position proche du bord gauche, par ex.
+    drapeau_niveau1.y = SCREEN_H / 2; // milieu de l'écran en Y
+    drapeau_niveau1.largeur = 40;     // taille du drapeau
+    drapeau_niveau1.hauteur = 60;
+    drapeau_niveau1.actif = 1;
+}
+
+
+
+
 

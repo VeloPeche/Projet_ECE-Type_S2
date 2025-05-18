@@ -22,5 +22,6 @@ int vitesse_ennemi_selon_niveau(int niveau);
 // Retourne la vitesse coeurs selon niveau
 int vitesse_coeur_selon_niveau(int niveau);
 
+void initialiser_niveau_1();
 #endif
 
