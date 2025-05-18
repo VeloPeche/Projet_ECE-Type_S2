@@ -31,3 +31,5 @@ void gerer_pause(BITMAP *page) {
     // Attente du relâchement de la touche P à nouveau
     while (key[KEY_P]) rest(10);
 }
+
+

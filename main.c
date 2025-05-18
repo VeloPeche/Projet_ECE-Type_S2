@@ -109,58 +109,19 @@ int main() {
 
         /* --- Définition des patterns selon le niveau --- */
         static SpawnEvent patternF1[66] = {
-            {0, 10},
-            {0, 400},
-            {0, 200},
-            {3, 300},
-            {3, 300},
-            {3, 200},
-            {4, 370},
-              {4, 100},
-            {5, 20},
-               {6, 220},
-            {7, 120},
-            {7, 310},
-            {8, 20},
-            {9, 120},
-            {10, 345},
-            {11, 149},
-            {12, 230},
-            {12, 300},
-            {14, 245},
-            {14, 355},
-            {14, 10},
-            {15, 120},
-            {16, 50},
-            {16, 320},
-            {17, 150},
-               {17, 370},
-            {19, 130},
-            {19, 260},
-            {19, 20},
-               {20, 310},
-            {20, 200},
-            {21, 130},
-               {21, 20},
-
-            {23, 300},
-            {23, 90},
-            {23, 170},
-            {24, 370},
-            {25, 300},
-            {27, 160},
-            {27, 300},
-            {27, 370},
-            {28, 210},
-            {29, 320},
-            {31, 360},
-            {31, 170},
-
-
-            {31, 260},
-            {31, 80},
-            {33, 15},
-            {33, 335},
+            {0, 10},{0, 400},{0, 200},{3, 300},
+            {3, 300},{3, 200},{4, 370},
+              {4, 100},{5, 20},{6, 220},
+            {7, 120},{7, 310},{8, 20},
+            {9, 120},{10, 345},{11, 149},{12, 230},
+            {12, 300},{14, 245},{14, 355},
+            {14, 10},{15, 120},{16, 50},
+            {16, 320},{17, 150},{17, 370},
+            {19, 130},{19, 260},{19, 20},
+            {20, 310},{20, 200},{21, 130},{21, 20},
+               {23, 300},{23, 90},{23, 170},{24, 370},
+            {25, 300},{27, 160},{27, 300},{27, 370},
+            {28, 210},{29, 320},{31, 360},{31, 170},{31, 260},{31, 80},{33, 15},{33, 335},
             {34, 95},
             {35, 15},
             {35, 175},
@@ -269,26 +230,39 @@ int main() {
         int vitE              = vitesse_ennemi_selon_niveau(niveau);
         int vitC              = vitesse_coeur_selon_niveau(niveau);
         int screenx           = 0;
+        time_t temps_debut_pause = 0;
+        int en_pause = 0;
+        time_t time_pause_total = 0;
 
         /* --- Boucle de jeu --- */
         while (!key[KEY_ESC]
                && v.nb_vie > 0
                && difftime(time(NULL), debut) < DUREE_NIVEAU)
         {
-            int t = (int)difftime(time(NULL), debut);
+            int t = (int)(difftime(time(NULL), debut) - time_pause_total);
+
 
             // 1) Scrolling
             screenx = (screenx + 2) % (fond->w - SCREEN_W);
             clear_bitmap(page);
             blit(fond, page, screenx, 0, 0, 0, SCREEN_W, SCREEN_H);
 
+            static int pause_active = 0;
             // 2) Déplacement & pause
             int dx = 0, dy = 0;
             if (key[KEY_UP])    dy = -v.vitesse;
             if (key[KEY_DOWN])  dy =  v.vitesse;
             if (key[KEY_LEFT])  dx = -v.vitesse;
             if (key[KEY_RIGHT]) dx =  v.vitesse;
-            if (key[KEY_P])     gerer_pause(page);
+            if (key[KEY_P] && !en_pause) {
+                en_pause = 1;
+                temps_debut_pause = time(NULL);
+                gerer_pause(page);  // ta fonction pause qui attend un appui pour reprendre
+                // Quand on revient ici, on reprend la partie
+                time_pause_total += (time(NULL) - temps_debut_pause);
+                en_pause = 0;
+            }
+
             deplacer_vaisseau(&v, dx, dy);
 
             // 3) Tir du joueur
