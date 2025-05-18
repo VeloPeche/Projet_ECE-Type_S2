@@ -564,7 +564,7 @@ int main() {
         // Afficher "GAME OVER"
         textprintf_centre_ex(page, font, SCREEN_W/2, SCREEN_H/2 - 40,
                              makecol(255, 0, 0), -1,
-                             "GAME OVER");
+                             "GAME-OVER");
 
         // Lire la sauvegarde
         int best_score_sauvegarde = 0, best_level_sauvegarde = 0;
