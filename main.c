@@ -181,9 +181,12 @@ int main() {
         };
 
         static SpawnEvent patternF2[] = {
-            {2,300},{3,250},{4,200},{5,150},{6,100},
-            {10, 80},{10,160},{10,240},{10,320},
-            {14,120},{15,170},{16,220},{17,270},{18,320}
+            {0,50},{1,130},{2,210},{3,290},
+            {4,380},{5, 80},{5,160},
+            {7,20},{6,150},
+            {10,210},{11,200},{11,120},{12,30},{13,110},
+            {14,10},{15,100},
+            {16,210},{17,200},
         };
         static SpawnEvent patternF3[] = {
             {1,60},{1,120},{1,180},{1,240},{1,300},{1,360},
@@ -193,9 +196,11 @@ int main() {
         };
 
         static SpawnEvent patternE2[] = {
-            {6,100},{6,160},{6,220},
-            {12, 80},{12,140},{12,200},
-            {18,120},{18,180},{18,240}
+            {6,50},{6,160},{6,250},
+            {8, 20},{8,100},{9,200},
+            {10,20}, {10,100},
+               {13,10},{14,120},
+            {15,10},{16,90}
         };
         static SpawnEvent patternE3[] = {
             {5,300},{6,260},{7,220},{8,180},{9,140},
@@ -203,7 +208,9 @@ int main() {
         };
 
         static SpawnEvent patternO2[] = {
-            {4,200},{8,200},{12,200},{16,200},{20,200}
+            {4,350},{8,280},{12,200},{12,280},
+               {10,200},{10,350},{8,280},{12,200},{12,280},
+               {15,200},{16,280},
         };
         static SpawnEvent patternO3[] = {
             {3,80},{6,80},{9,80},{12,80},{15,80},
@@ -296,7 +303,7 @@ int main() {
 
             // 5) Spawn opps (ennemis spéciaux)
             if (patE) {
-                while (idxE < lenE && patE[idxE].t_spawn == t) {
+                while (idxE < lenE && patE[idxE].t_spawn<= t) {
                     for (int i = 0; i < MAX_ENNEMIS; i++) {
                         if (!ennemisSpeciaux[i].actif) {
                             ennemisSpeciaux[i].actif = 1;
@@ -311,7 +318,7 @@ int main() {
 
             // 6) Spawn obstacles
             if (patO) {
-                while (idxO < lenO && patO[idxO].t_spawn == t) {
+                while (idxO < lenO && patO[idxO].t_spawn <= t) {
                     for (int i = 0; i < 30; i++) {
                         if (!obstacles[i].actif) {
                             obstacles[i].actif = 1;
