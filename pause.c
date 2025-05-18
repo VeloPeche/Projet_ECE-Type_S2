@@ -4,8 +4,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-// Created by camil on 15/05/2025.
-//
+
 void gerer_pause(BITMAP *page) {
     textout_centre_ex(page, font,
                       "Le jeu est en pause. ",
